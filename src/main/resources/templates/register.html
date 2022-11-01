@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<h1>Registration Form</h1>
+<form th:object="${userForm}" method="POST" action="/register" enctype="utf8">
+    <div>
+        <label>Username</label>
+        <input th:field="*{username}"/>
+        <p th:each="error: ${#fields.errors('username')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <label>email</label>
+        <input type="email" th:field="*{email}"/>
+        <p th:each="error : ${#fields.errors('email')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <label>role</label>
+        <select name="role">
+            <option th:each="roleOpt : ${T(com.jobs.jobsearch.model.helper.UserRole).values()}"
+                    th:value="${roleOpt}" th:text="${roleOpt}"></option>
+        </select>
+        <p th:each="error : ${#fields.errors('role')}"
+           th:text="${role}">Validation error</p>
+    </div>
+    <div>
+        <label>password</label>
+        <input type="password" th:field="*{password}"/>
+        <p th:each="error : ${#fields.errors('password')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <label>confirm password</label>
+        <input type="password" th:field="*{passwordConfirm}"/>
+        <p th:each="error : ${#fields.errors('passwordConfirm')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <button type="submit" >submit</button>
+</form>
+
+<p th:if="${message}" th:text="${message}">Server side error</p>
+
+<a th:href="@{/login}">login</a>
+</body>
+</html>
