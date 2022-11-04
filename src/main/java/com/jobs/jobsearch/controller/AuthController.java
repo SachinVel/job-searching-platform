@@ -1,6 +1,8 @@
 package com.jobs.jobsearch.controller;
 
 import com.jobs.jobsearch.exception.UserAlreadyExistException;
+import com.jobs.jobsearch.model.Company;
+import com.jobs.jobsearch.model.JobSeekerDetails;
 import com.jobs.jobsearch.model.User;
 import com.jobs.jobsearch.security.SecurityService;
 import com.jobs.jobsearch.model.VerificationToken;
@@ -11,6 +13,9 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -43,7 +50,14 @@ public class AuthController {
     // handler method to handle home page request
     @GetMapping("/index")
     public String home(){
-        return "index";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>(authentication.getAuthorities());
+        if( list.get(0).getAuthority().equals("JOB_SEEKER") ){
+            return "redirect:/seeker/index";
+        }else{
+            return "redirect:/company/index";
+        }
+
     }
 
     @GetMapping("/login")

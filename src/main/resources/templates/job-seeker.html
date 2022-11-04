@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Job Searching Platform</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/job-seeker.css}"/>
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/js/job-seeker.js}"></script>
+    <script>
+        $(window).on('load', function(){
+            console.log("window loaded");
+            Seeker.init();
+        });
+    </script>
+
 </head>
 <body>
-  <h1>Welcome to job seeker page</h1>
+  <div class="header-container">
+    <span>Job Searching Platform</span>
+  </div>
+  <ul class="side-bar-container">
+      <li class="side-bar-option">Jobs</li>
+      <li class="side-bar-option">Job Applications</li>
+      <li class="side-bar-option">Documents</li>
+      <li class="side-bar-option">Profile</li>
+      <li class="side-bar-option"><a href="/logout" class="logout-link">Logout</a></li>
+  </ul>
+
+<div id="main-body">
+
+</div>
+
+
 </body>
 </html>
