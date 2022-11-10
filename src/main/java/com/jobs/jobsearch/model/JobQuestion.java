@@ -13,24 +13,19 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="company", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
-public class Company {
+@Table(name="job_question", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
+
+public class JobQuestion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    public User user;
+    @ManyToOne(targetEntity = Job.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "job_id")
+    public Job job;
 
     @NotEmpty
-    public String name;
-
-    @NotEmpty
-    public String address;
-
-    @NotEmpty
-    public String contactInfo;
+    private String questionName;
 
 }

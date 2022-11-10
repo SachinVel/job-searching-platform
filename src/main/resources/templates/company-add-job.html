@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<form th:object="${job}" id="job-form" action="/register" enctype="utf8">
+    
+    
+    <div>
+        <label>Title</label>
+        <input th:field="*{title}"/>
+        <p th:each="error: ${#fields.errors('title')}"
+            th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <label>Description</label>
+        <input th:field="*{description}"/>
+        <p th:each="error: ${#fields.errors('description')}"
+            th:text="${error}">Validation error</p>
+    </div>
+
+    <div>
+        <label>Location</label>
+        <input th:field="*{location}"/>
+        <p th:each="error: ${#fields.errors('location')}"
+            th:text="${error}">Validation error</p>
+    </div>
+
+    <div>
+        <label>Is resume needed?</label>
+        <label for="yes-resume-btn">Yes</label>
+        <input type="radio"  name="isResumeNeeded" value="yes" id="yes-resume-btn" th:checked="${#bools.isTrue(job.isResumeNeeded)}"/>
+        <label for="no-resume-btn">No</label>
+        <input type="radio"  name="isResumeNeeded" value="no" id="no-resume-btn" th:checked="${#bools.isFalse(job.isResumeNeeded)}"/>
+        <p th:each="error: ${#fields.errors('isResumeNeeded')}"
+            th:text="${error}">Validation error</p>
+    </div>
+
+    <div>
+        <label>Is cover letter needed?</label>
+        <label for="yes-cover-letter-btn">Yes</label>
+        <input type="radio"  name="isCoverLetterNeeded" value="yes"  id="yes-cover-letter-btn" th:checked="${#bools.isTrue(job.isCoverLetterNeeded)}"/>
+        <label for="no-cover-letter-btn">No</label>
+        <input type="radio"  name="isCoverLetterNeeded" value="no" id="no-cover-letter-btn"  th:checked="${#bools.isFalse(job.isCoverLetterNeeded)}"/>
+        <p th:each="error: ${#fields.errors('isCoverLetterNeeded')}"
+            th:text="${error}">Validation error</p>
+    </div>
+
+    <div>
+        <label>expiry(in days)</label>
+        <input type="number"  id="job-expiry-time-input" th:field="*{expiryTime}" />
+        <p th:each="error: ${#fields.errors('expiryTime')}"
+            th:text="${error}">Validation error</p>
+    </div>
+
+</form>
+
+
+<input type="hidden"  name="job-id" id="job-id" th:value="${job.id}" th:if="${job.id != null}"/>
+
+
+<button id="add-job-question-btn">Add question</button>
+
+<div id="job-question-container">
+    <th:block th:each="question: ${questions}">
+        <div>
+            <div>Question</div>
+            <button class="js-remove-job-question-btn">Remove</button>
+            <input type="text"  name="job-question" class="js-job-question" th:value="${question.questionName}"/>
+        </div>
+    </th:block>
+</div>
+
+<button id="save-job-btn">Save</button>
+
+<p th:if="${message}" th:text="${message}">Server side error</p>
+
+</html>

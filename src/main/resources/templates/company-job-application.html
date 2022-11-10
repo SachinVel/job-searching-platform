@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <table>
+        <tr>
+            <th>Applicant Name</th>
+            <th>Email</th>
+            <th>Contact Info</th>
+            <th>Address</th>
+        </tr>
+        <th:block th:each="jobApplication: ${jobApplications}">
+            <tr>
+                <td th:text="${jobApplication.id}" style="display: none;" class="js-application-id"/>
+                <td th:text="${jobApplication.user.username}" />
+                <td th:text="${jobApplication.user.email}" />
+                <th:block th:each="jobSeeker: ${jobSeekers}">
+                    <td th:text="${jobSeeker.contactInfo}" th:if="${jobSeeker.user.id}==${jobApplication.user.id}"/>
+                    <td th:text="${jobSeeker.address}" th:if="${jobSeeker.user.id}==${jobApplication.user.id}"/>
+                </th:block>
+                <td th:text="${jobApplication.applicationStatus}" />
+
+                <td><button class="js-view-job-btn">view</button></td>
+            </tr>
+        </th:block>
+    </table>
+
+    <p th:if="${message}" th:text="${message}">Server side error</p>
+
+</html>

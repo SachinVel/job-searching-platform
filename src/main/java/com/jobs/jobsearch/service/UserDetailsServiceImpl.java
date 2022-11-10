@@ -35,7 +35,6 @@ public class UserDetailsServiceImpl implements UserDetailsService{
             Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
             //implement authority
             grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
-
             return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),user.isEnabled(), accountNonExpired,credentialsNonExpired,accountNonLocked,grantedAuthorities);
         }catch (RuntimeException ex ){
             throw new RuntimeException(ex);

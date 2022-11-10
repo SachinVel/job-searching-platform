@@ -1,11 +1,9 @@
 package com.jobs.jobsearch.controller;
 
 import com.jobs.jobsearch.exception.UserAlreadyExistException;
-import com.jobs.jobsearch.model.Company;
-import com.jobs.jobsearch.model.JobSeekerDetails;
-import com.jobs.jobsearch.model.User;
+import com.jobs.jobsearch.model.*;
+import com.jobs.jobsearch.model.helper.UserRole;
 import com.jobs.jobsearch.security.SecurityService;
-import com.jobs.jobsearch.model.VerificationToken;
 import com.jobs.jobsearch.service.UserService;
 import com.jobs.jobsearch.util.EmailSender;
 import com.jobs.jobsearch.validator.UserValidator;
@@ -72,22 +70,32 @@ public class AuthController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
         // create model object to store form data
-        model.addAttribute("userForm", new User());
+        model.addAttribute("userForm", new UserRegistrationForm());
         LOGGER.info("Came inside get register");
         return "register";
     }
 
     @PostMapping("/register")
-    public String registration(@Valid @ModelAttribute("userForm") User userForm, Model model, BindingResult bindingResult) {
-        userValidator.validate(userForm, bindingResult);
-
-        if (bindingResult.hasErrors()) {
-            return "register";
-        }
+    public String registration(@ModelAttribute("userForm") UserRegistrationForm userForm, Model model, BindingResult bindingResult) {
 
         try{
 
-            User curUser = userService.save(userForm);
+            userValidator.validateRegistrationForm(userForm,bindingResult);
+
+            if( bindingResult.hasErrors() ) {
+                return "register";
+            }
+
+            User curUser = userService.saveUser(userForm.getUser());
+            if( curUser.role== UserRole.JOB_SEEKER ){
+                JobSeekerDetails jobSeekerDetails = userForm.getJobSeeker();
+                jobSeekerDetails.setUser(curUser);
+                userService.saveJobSeekerDetails(jobSeekerDetails);
+            }else{
+                Company companyDetails = userForm.getCompany();
+                companyDetails.setUser(curUser);
+                userService.saveCompanyDetails(companyDetails);
+            }
             String token = UUID.randomUUID().toString();
             userService.createVerificationToken(curUser, token);
             String confirmationUrl
@@ -96,7 +104,6 @@ public class AuthController {
             EmailSender emailSender = new EmailSender();
             emailSender.sendConfirmationLink(curUser,message);
 
-//            securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
         }catch (UserAlreadyExistException userAlreadyExistException){
             model.addAttribute("message", "An account for that username/email already exists.");
             return "register";

@@ -1,7 +1,11 @@
 package com.jobs.jobsearch.service;
 
 import com.jobs.jobsearch.exception.UserAlreadyExistException;
+import com.jobs.jobsearch.model.Company;
+import com.jobs.jobsearch.model.JobSeekerDetails;
 import com.jobs.jobsearch.model.User;
+import com.jobs.jobsearch.repository.CompanyRepository;
+import com.jobs.jobsearch.repository.JobSeekerRepository;
 import com.jobs.jobsearch.repository.UserRepository;
 
 import com.jobs.jobsearch.repository.VerificationTokenRepository;
@@ -16,16 +20,18 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private JobSeekerRepository jobSeekerRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    @Autowired
     private VerificationTokenRepository tokenRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public User save(User user) throws UserAlreadyExistException{
-        if (isUsernameExists(user.getUsername())) {
-            throw new UserAlreadyExistException("There is an account with that username: "
-                    + user.getUsername());
-        }
+    public User saveUser(User user) throws UserAlreadyExistException{
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRole(user.getRole());
         return userRepository.save(user);
@@ -46,6 +52,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findById(Long userId) {
+        return userRepository.findById(userId).get();
+    }
+
+    @Override
     public VerificationToken getVerificationToken(String VerificationToken) {
         return tokenRepository.findByToken(VerificationToken);
     }
@@ -59,6 +70,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteVerificationToken(VerificationToken verificationToken){
         tokenRepository.delete(verificationToken);
+    }
+
+    @Override
+    public void saveJobSeekerDetails(JobSeekerDetails jobSeekerDetails) {
+        jobSeekerRepository.save(jobSeekerDetails);
+    }
+
+    @Override
+    public JobSeekerDetails getJobSeekerDetails(long userId){
+        return jobSeekerRepository.findByUserId(userId);
+    }
+
+    @Override
+    public void saveCompanyDetails(Company company) {
+        companyRepository.save(company);
+    }
+
+    @Override
+    public Company getCompanyDetails(long userId) {
+        return companyRepository.findByUserId(userId);
     }
 
 

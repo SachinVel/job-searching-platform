@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div>
+    <button id="add-document-btn">Add document</button>
+    <div id="add-document-container" class="add-document-container">
+        <form method="POST" action="/seeker/document/upload" enctype="multipart/form-data" id="upload-document-form">
+            <input type="file" name="file" /><br/><br/>
+            <select name="docType">
+                <option value="RESUME">RESUME</option>
+                <option value="COVER_LETTER">COVER_LETTER</option>
+            </select>
+        </form>
+        <button id="upload-document-btn" >Upload</button>
+    </div>
+
+    <h3>Resume</h3>
+    <table>
+        <th:block th:each="document: ${jobDocuments}">
+            <tr th:if="${#strings.equals(document.type, 'RESUME')}">
+                <td th:text="${document.docId}" style="display: none;" class="js-doc-id"/>
+                <td th:text="${document.name}" />
+                <td><a th:href="@{/seeker/document/download/{id}(id=${document.docId})}" download>Download</a></td>
+                <td><button class="js-delete-btn">Delete</button></td>
+            </tr>
+        </th:block>
+    </table>
+
+    <h3>Cover Letter</h3>
+    <table>
+        <th:block th:each="document: ${jobDocuments}">
+            <tr th:if="${#strings.equals(document.type, 'COVER_LETTER')}" >
+                <td th:text="${document.docId}" style="display: none;" class="js-doc-id"/>
+                <td th:text="${document.name}" />
+                <td><a th:href="@{/seeker/document/download/{id}(id=${document.docId})}" download>Download</a></td>
+                <td><button class="js-delete-btn">Delete</button></td>
+            </tr>
+        </th:block>
+    </table>
+    
+</div>
+
+
+
+<p th:if="${message}" th:text="${message}">Server side error</p>
+
+</html>

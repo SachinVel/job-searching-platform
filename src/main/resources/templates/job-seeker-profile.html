@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    
+    <form th:object="${jobSeekerDetails}" enctype="utf8" id="profile-form">
+        <input th:field="*{user.id}" type="hidden"/>
+        <div>
+            <label>Username</label>
+            <input th:field="*{user.username}"/>
+            <p th:each="error: ${#fields.errors('user.username')}"
+               th:text="${error}">Validation error</p>
+        </div>
+
+        <div>
+            <label>password</label>
+            <input type="password" th:field="*{user.password}"/>
+            <p th:each="error : ${#fields.errors('user.password')}"
+               th:text="${error}">Validation error</p>
+        </div>
+        <div>
+            <label>confirm password</label>
+            <input type="password" th:field="*{user.passwordConfirm}"/>
+            <p th:each="error : ${#fields.errors('user.passwordConfirm')}"
+               th:text="${error}">Validation error</p>
+        </div>
+    
+        <div class="additional-details js-additional-details" id="job-seeker-container">
+            <h3>Job Seeker Details</h3>
+            <div>
+                <label>Bio</label>
+                <input type="text" th:field="*{bio}"/>
+                <p th:each="error : ${#fields.errors('bio')}"
+                   th:text="${error}">Validation error</p>
+            </div>
+            <div>
+                <label>Address</label>
+                <textarea maxlength="200" th:field="*{address}"/>
+                <p th:each="error : ${#fields.errors('address')}"
+                   th:text="${error}">Validation error</p>
+            </div>
+            <div>
+                <label>Contact Info</label>
+                <input type="text" th:field="*{contactInfo}"/>
+                <p th:each="error : ${#fields.errors('contactInfo')}"
+                   th:text="${error}">Validation error</p>
+            </div>
+        </div>
+
+    </form>
+
+    <button id="update-profile-btn">Update</button>
+    <button id="reset-profile-btn">Reset</button>
+
+    <p th:if="${message}" th:text="${message}">Server side error</p>
+
+</html>

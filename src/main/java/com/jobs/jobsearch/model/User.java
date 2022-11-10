@@ -14,25 +14,25 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @Entity
-@Table(name="users", uniqueConstraints = {@UniqueConstraint(columnNames = {"userId"})})
+@Table(name="users", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
+    public Long id;
     @NotEmpty
-    private String username;
-    private boolean enabled;
+    public String username;
+    public boolean enabled;
 
     @NotEmpty
-    private UserRole role;
+    public UserRole role;
     @NotEmpty
-    private String email;
+    public String email;
     @NotEmpty
-    private String password;
+    public String password;
 
     @Transient
     @NotEmpty
-    private String passwordConfirm;
+    public String passwordConfirm;
 
     public User() {
         super();

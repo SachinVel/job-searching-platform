@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div id="question-section">
+    <h3>Questions</h3>
+    <th:block th:each="question: ${questions}">
+        <div class="js-question-container">
+            <span th:text="${question.id}" style="display: none;" class="js-question-id"></span>
+            <div class="js-question-value" th:text="${question.questionName}"></div>
+            <input type="text" class="js-answer-value" />
+        </div>
+    </th:block>
+
+    <button id="application-question-next-btn">Next</button>
+</div>
+
+<div id="document-section">
+    <h3>Documents</h3>
+    <div>If documents is not uploaded in document section, kindly upload document in that section and proceed further</div>
+    <div th:if="${#bools.isTrue(job.isResumeNeeded)}">
+        <label>Upload Resume</label>
+        <select name="resume-input" id="resume-input">
+            <th:block th:each="document: ${documents}">
+                <option th:value="${document.docId}" th:if="${#strings.equals(document.type, 'RESUME')}" th:text="${document.name}"></option>
+            </th:block>
+        </select>
+    </div>
+    <div th:if="${#bools.isTrue(job.isCoverLetterNeeded)}">
+        <label>Upload Resume</label>
+        <select name="cover-letter-input" id="cover-letter-input">
+            <th:block th:each="document: ${documents}">
+                <option th:value="${document.docId}" th:if="${#strings.equals(document.type, 'COVER_LETTER')}" th:text="${document.name}"></option>
+            </th:block>
+        </select>
+    </div>
+    <button id="application-document-next-btn">Next</button>
+</div>
+
+<div id="complete-section" style="display:none">
+    Please click submit to confirm the submission.
+    <button id="application-submit-btn">Submit</button>
+</div>

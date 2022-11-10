@@ -1,5 +1,6 @@
 package com.jobs.jobsearch.model;
 
+import com.jobs.jobsearch.model.helper.DocType;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -10,22 +11,22 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "job_seeker_details")
-public class JobSeekerDetails {
+@Table(name = "job_document")
+public class JobDocument {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long seekerId;
+    public Long docId;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     User user;
 
     @NotEmpty
-    private String bio;
+    private DocType type;
+
     @NotEmpty
-    private String address;
-    @NotEmpty
-    private String contactInfo;
+    @Column(unique=true)
+    private String name;
 
 }

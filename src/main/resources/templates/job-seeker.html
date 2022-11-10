@@ -9,7 +9,6 @@
     <script type="text/javascript" th:src="@{/js/job-seeker.js}"></script>
     <script>
         $(window).on('load', function(){
-            console.log("window loaded");
             Seeker.init();
         });
     </script>
@@ -19,15 +18,15 @@
   <div class="header-container">
     <span>Job Searching Platform</span>
   </div>
-  <ul class="side-bar-container">
-      <li class="side-bar-option">Jobs</li>
-      <li class="side-bar-option">Job Applications</li>
-      <li class="side-bar-option">Documents</li>
-      <li class="side-bar-option">Profile</li>
+  <ul class="side-bar-container" id="side-bar">
+      <li class="side-bar-option" id="job-menu">Jobs</li>
+      <li class="side-bar-option" id="job-application-menu">Job Applications</li>
+      <li class="side-bar-option" id="document-menu">Documents</li>
+      <li class="side-bar-option" id="profile-menu">Profile</li>
       <li class="side-bar-option"><a href="/logout" class="logout-link">Logout</a></li>
   </ul>
 
-<div id="main-body">
+<div id="main-body" class="main-body">
 
 </div>
 

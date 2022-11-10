@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <table>
+        <tr>
+            <th>Company Name</th>
+            <th>Title</th>
+            <th>Location</th>
+        </tr>
+        <th:block th:each="job: ${jobs}">
+            <tr>
+                <td th:text="${job.id}" style="display: none;" class="js-job-id"/>
+                <td th:text="${job.company.name}" />
+                <td th:text="${job.title}" />
+                <td th:text="${job.location}" />
+                <td><button class="js-view-job-btn">view</button></td>
+            </tr>
+        </th:block>
+    </table>
+
+    <p th:if="${message}" th:text="${message}">Server side error</p>
+
+</html>
