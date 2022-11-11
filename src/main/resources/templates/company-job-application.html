@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-    <table>
+    <table class="styled-table">
         <tr>
             <th>Applicant Name</th>
             <th>Email</th>
@@ -19,7 +19,7 @@
                 </th:block>
                 <td th:text="${jobApplication.applicationStatus}" />
 
-                <td><button class="js-view-job-btn">view</button></td>
+                <td><button class="js-view-application-detail-btn secondary-btn">View Details</button></td>
             </tr>
         </th:block>
     </table>

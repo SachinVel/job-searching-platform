@@ -40,6 +40,4 @@ public class UserRepositoryTests {
         assertThat(user.getEmail()).isEqualTo(existUser.getEmail());
 
     }
-
-    // test methods go below
 }

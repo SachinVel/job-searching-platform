@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-    <table>
+    <table class="styled-table">
         <tr>
             <th>Company Name</th>
             <th>Title</th>
@@ -13,11 +13,11 @@
                 <td th:text="${job.company.name}" />
                 <td th:text="${job.title}" />
                 <td th:text="${job.location}" />
-                <td><button class="js-view-job-btn">view</button></td>
+                <td><button class="js-view-job-btn table-btn">View</button></td>
             </tr>
         </th:block>
     </table>
 
-    <p th:if="${message}" th:text="${message}">Server side error</p>
+    <p th:if="${message}" th:text="${message}" class="info-message">Server side error</p>
 
 </html>

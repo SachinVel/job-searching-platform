@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-    <table>
+    <table class="styled-table"> 
+        <tr>
+            <th>Job Title</th>
+            <th>Location</th>
+        </tr>
         <th:block th:each="job: ${jobs}">
             <tr>
                 <td th:text="${job.id}" style="display: none;" class="js-job-id"/>
                 <td th:text="${job.title}" />
                 <td th:text="${job.location}" />
-                <td><button class="js-delete-job-btn">Delete</button></td>
-                <td><button class="js-view-job-btn">view</button></td>
-                <td><button class="js-view-job-application-btn">view job application</button></td>
+                <td><button class="js-delete-job-btn secondary-btn">Delete</button></td>
+                <td><button class="js-view-job-btn secondary-btn">View Details</button></td>
+                <td><button class="js-view-job-application-btn secondary-btn">View Job Application</button></td>
             </tr>
         </th:block>
     </table>
 
-    <p th:if="${message}" th:text="${message}">Server side error</p>
+    <p th:if="${message}" th:text="${message}" class="info-message">Server side error</p>
 
 </html>

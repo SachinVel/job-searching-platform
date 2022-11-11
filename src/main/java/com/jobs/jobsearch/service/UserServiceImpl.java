@@ -10,6 +10,7 @@ import com.jobs.jobsearch.repository.UserRepository;
 
 import com.jobs.jobsearch.repository.VerificationTokenRepository;
 import com.jobs.jobsearch.model.VerificationToken;
+import com.jobs.jobsearch.util.EscapeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -74,6 +75,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveJobSeekerDetails(JobSeekerDetails jobSeekerDetails) {
+        String contactInfo = EscapeUtil.esacpeInput(jobSeekerDetails.getContactInfo());
+        jobSeekerDetails.setContactInfo(contactInfo);
+
+        String address = EscapeUtil.esacpeInput(jobSeekerDetails.getAddress());
+        jobSeekerDetails.setAddress(address);
+
+        String bio = EscapeUtil.esacpeInput(jobSeekerDetails.getBio());
+        jobSeekerDetails.setBio(bio);
+
         jobSeekerRepository.save(jobSeekerDetails);
     }
 
@@ -84,6 +94,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveCompanyDetails(Company company) {
+        String contactInfo = EscapeUtil.esacpeInput(company.getContactInfo());
+        company.setContactInfo(contactInfo);
+
+        String address = EscapeUtil.esacpeInput(company.getAddress());
+        company.setAddress(address);
+
+        String companyName = EscapeUtil.esacpeInput(company.getName());
+        company.setName(companyName);
         companyRepository.save(company);
     }
 

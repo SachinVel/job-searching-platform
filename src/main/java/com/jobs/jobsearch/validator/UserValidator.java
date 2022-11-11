@@ -28,6 +28,18 @@ public class UserValidator {
     }
 
     private static void checkPassword(String password, String passwordConfirm, Errors errors){
+        if( !password.matches(".*\\d.*") ){
+            errors.rejectValue("user.password", "password.requireNumber");
+        }
+        if( !password.matches(".*[A-Z].*") ){
+            errors.rejectValue("user.password", "password.requireUppercase");
+        }
+        if( !password.matches(".*[a-z].*") ){
+            errors.rejectValue("user.password", "password.requireLowercase");
+        }
+        if( !password.matches(".*[^a-z0-9 ].*") ){
+            errors.rejectValue("user.password", "password.requireSpecialChar");
+        }
         if (password.length() < 8 || password.length() > 32) {
             errors.rejectValue("user.password", "Size.userForm.password");
         }
@@ -41,6 +53,9 @@ public class UserValidator {
         return str.length()<MAX_STR_LENGTH;
     }
     private void checkUsername(String username, Errors errors){
+        if( !username.matches("^[0-9A-Za-z]*$") ){
+            errors.rejectValue("user.username", "username.nonAlphaNumeric");
+        }
         if (username.length() < 6 || username.length() > 32) {
             errors.rejectValue("user.username", "Size.userForm.username");
         }

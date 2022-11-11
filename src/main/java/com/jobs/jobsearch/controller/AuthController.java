@@ -1,5 +1,6 @@
 package com.jobs.jobsearch.controller;
 
+import antlr.StringUtils;
 import com.jobs.jobsearch.exception.UserAlreadyExistException;
 import com.jobs.jobsearch.model.*;
 import com.jobs.jobsearch.model.helper.UserRole;
@@ -8,6 +9,7 @@ import com.jobs.jobsearch.service.UserService;
 import com.jobs.jobsearch.util.EmailSender;
 import com.jobs.jobsearch.validator.UserValidator;
 import jakarta.validation.Valid;
+import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.util.HtmlUtils;
+import org.springframework.web.util.JavaScriptUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,6 +47,18 @@ public class AuthController {
 
     public AuthController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/")
+    public String redirectFromhHome(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>(authentication.getAuthorities());
+        if( list.get(0).getAuthority().equals("JOB_SEEKER") ){
+            return "redirect:/seeker/index";
+        }else{
+            return "redirect:/company/index";
+        }
+
     }
 
     // handler method to handle home page request
@@ -79,7 +95,6 @@ public class AuthController {
     public String registration(@ModelAttribute("userForm") UserRegistrationForm userForm, Model model, BindingResult bindingResult) {
 
         try{
-
             userValidator.validateRegistrationForm(userForm,bindingResult);
 
             if( bindingResult.hasErrors() ) {

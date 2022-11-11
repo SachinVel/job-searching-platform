@@ -25,6 +25,9 @@ public class CompanyServiceImpl implements  CompanyService{
     @Autowired
     private JobQuestionRepository jobQuestionRepository;
 
+    @Autowired
+    private JobAnswerRepository jobAnswerRepository;
+
     @Override
     public Company getCompanyByUserId(Long userId) {
         return companyRepository.findByUserId(userId);
@@ -42,6 +45,13 @@ public class CompanyServiceImpl implements  CompanyService{
 
     @Override
     public void deleteJob(Long jobId) {
+
+        for( JobApplication jobApplication : getJobApplicationByJobId(jobId) ){
+            for( JobAnswer jobAnswer : getAnswersByApplicationId(jobApplication.getId()) ){
+                jobAnswerRepository.delete(jobAnswer);
+            }
+            jobApplicationRepository.delete(jobApplication);
+        }
         for( JobQuestion question : getJobQuestions(jobId) ){
             jobQuestionRepository.deleteById(question.getId());
         }
@@ -83,6 +93,16 @@ public class CompanyServiceImpl implements  CompanyService{
     @Override
     public List<JobApplication> getJobApplicationByJobId(Long jobId) {
         return jobApplicationRepository.findByJobId(jobId);
+    }
+
+    @Override
+    public JobApplication getJobApplicationById(Long appId) {
+        return jobApplicationRepository.getReferenceById(appId);
+    }
+
+    @Override
+    public List<JobAnswer> getAnswersByApplicationId(Long applicationId) {
+        return jobAnswerRepository.findByJobApplicationId(applicationId);
     }
 
     @Override

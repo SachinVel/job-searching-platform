@@ -2,13 +2,21 @@ package com.jobs.jobsearch.controller;
 
 import com.jobs.jobsearch.exception.UserAlreadyExistException;
 import com.jobs.jobsearch.model.*;
+import com.jobs.jobsearch.model.helper.ApplicationStatus;
 import com.jobs.jobsearch.service.CompanyService;
+import com.jobs.jobsearch.service.JobSeekerService;
 import com.jobs.jobsearch.service.UserService;
 import com.jobs.jobsearch.validator.UserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileUrlResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,7 +46,13 @@ public class CompanyAdminController {
     private CompanyService companyService;
 
     @Autowired
+    private JobSeekerService jobSeekerService;
+
+    @Autowired
     private UserValidator userValidator;
+
+    @Value("${document.location}")
+    private String documentLocation;
 
     @GetMapping("/index")
     public String companyAdminHome(){
@@ -76,13 +90,89 @@ public class CompanyAdminController {
     }
 
     @GetMapping("/job/application/{jobId}")
-    public String getJobApplication(@PathVariable("jobId")Long jobId, Model model){
+    public String getJobApplications(@PathVariable("jobId")Long jobId, Model model){
         List<JobApplication> jobApplications = companyService.getJobApplicationByJobId(jobId);
         List<JobSeekerDetails> jobSeekers = companyService.getAllJobSeekers();
         model.addAttribute("jobApplications", jobApplications);
         model.addAttribute("jobSeekers", jobSeekers);
         return "company-job-application";
 
+    }
+
+    @GetMapping("/application/{appId}")
+    public String getJobApplication(@PathVariable("appId")Long applicationId, Model model){
+
+        JobApplication jobApplication = companyService.getJobApplicationById(applicationId);
+
+        JobSeekerDetails jobSeekerDetails = userService.getJobSeekerDetails(jobApplication.getUser().getId());
+
+        List<JobAnswer> jobAnswers = companyService.getAnswersByApplicationId(applicationId);
+
+        model.addAttribute("jobSeeker", jobSeekerDetails);
+        model.addAttribute("jobApplication", jobApplication);
+        model.addAttribute("jobAnswers", jobAnswers);
+        return "company-application-detail";
+    }
+
+    @PostMapping(
+            path = "/application",
+            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
+    )
+    public String updateJobApplication(@RequestBody MultiValueMap<String, String> formData, Model model){
+
+        Long applicationId = Long.parseLong(formData.getFirst("appId"));
+        JobApplication jobApplication = companyService.getJobApplicationById(applicationId);
+        String status = formData.getFirst("status");
+        switch (status){
+            case "accept":
+                jobApplication.setApplicationStatus(ApplicationStatus.ACCEPTED);
+                break;
+            case "reject":
+                jobApplication.setApplicationStatus(ApplicationStatus.REJECTED);
+                break;
+            case "waitlist":
+                jobApplication.setApplicationStatus(ApplicationStatus.WAILISTED);
+                break;
+        }
+
+        jobSeekerService.saveApplication(jobApplication);
+
+        JobSeekerDetails jobSeekerDetails = userService.getJobSeekerDetails(jobApplication.getUser().getId());
+
+        List<JobAnswer> jobAnswers = companyService.getAnswersByApplicationId(applicationId);
+
+
+        model.addAttribute("jobSeeker", jobSeekerDetails);
+        model.addAttribute("jobApplication", jobApplication);
+        model.addAttribute("jobAnswers", jobAnswers);
+        model.addAttribute("message", "Status updated successfully");
+        return "company-application-detail";
+    }
+
+    @GetMapping("/document/download/{docId}")
+    public ResponseEntity<?> downloadFile(@PathVariable("docId") Long docId) {
+
+        try{
+
+            JobDocument curDoc = jobSeekerService.getDocument(docId);
+
+            String docLocation = documentLocation+"/"+curDoc.getUser().getId()+"/"+curDoc.getName();
+            Resource resource = new FileUrlResource(docLocation);
+            if (resource == null) {
+                return new ResponseEntity<>("File not found", HttpStatus.NOT_FOUND);
+            }
+
+            String contentType = "application/octet-stream";
+            String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
+                    .body(resource);
+        }catch (Exception e) {
+            LOGGER.error("Exception in downloading file : {}",e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/job/add")
@@ -93,7 +183,8 @@ public class CompanyAdminController {
 
     @PostMapping(
             path = "/job/update",
-            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
+    )
     public String addJob(@RequestBody MultiValueMap<String, String> formData, Model model){
         for( String key : formData.keySet() ){
             String value = formData.getFirst(key);

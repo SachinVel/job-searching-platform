@@ -47,6 +47,162 @@ body{
     height: calc( 100% - 70px);
     top: 60px;
     left: 160px;
-    padding: 10px;
+    padding: 20px;
     border: 1px solid black;
+}
+
+.form-title{
+    text-align: center;
+}
+.form-unit{
+    margin: 15px;
+}
+
+.form-label{
+    display: inline-block;
+    width: 150px;
+}
+.form-input{
+    width: 200px;
+    height: 30px;
+}
+.form-text-area{
+    width: 200px;
+    height: 50px;
+}
+
+.error-message{
+    border: 1px solid;
+    margin: 10px 0px;
+    padding: 10px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    color: #282828;
+    background-color: #ff6565;
+    background-image: url(https://i.imgur.com/GnyDvKN.png);
+}
+.info-message{
+    border: 1px solid;
+    margin: 10px 0px;
+    padding: 10px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    color: #00529B;
+    background-color: #BDE5F8;
+    background-image: url(https://i.imgur.com/ilgqWuX.png);
+}
+.form-text-area{
+    height: 50px;
+    width: 200px;
+}
+
+
+/* CSS */
+.primary-btn {
+    appearance: button;
+    background-color: #405cf5;
+    border-radius: 6px;
+    border-width: 0;
+    box-shadow: rgb(50 50 93 / 10%) 0 0 0 1px inset, rgb(50 50 93 / 10%) 0 2px 5px 0, rgb(0 0 0 / 7%) 0 1px 1px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    height: 30px;
+    line-height: 1.15;
+    margin: 15px 10px;
+    outline: none;
+    overflow: hidden;
+    padding: 0 25px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    transform: translateZ(0);
+    transition: all .2s,box-shadow .08s ease-in;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 120px;
+}
+
+.secondary-btn{
+    appearance: button;
+    background-color:grey;
+    border-radius: 6px;
+    border-width: 0;
+    box-shadow: rgb(50 50 93 / 10%) 0 0 0 1px inset, rgb(50 50 93 / 10%) 0 2px 5px 0, rgb(0 0 0 / 7%) 0 1px 1px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    height: 30px;
+    line-height: 1.15;
+    margin: 0 10px;
+    outline: none;
+    overflow: hidden;
+    padding: 0 25px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    transform: translateZ(0);
+    transition: all .2s,box-shadow .08s ease-in;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.table-btn{
+    appearance: button;
+    background-color: grey;
+    border-radius: 6px;
+    border-width: 0;
+    box-shadow: rgb(50 50 93 / 10%) 0 0 0 1px inset, rgb(50 50 93 / 10%) 0 2px 5px 0, rgb(0 0 0 / 7%) 0 1px 1px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    height: 30px;
+    line-height: 1.15;
+    margin: 0 10px;
+    outline: none;
+    overflow: hidden;
+    padding: 0 20px;
+    position: relative;
+    text-align: center;
+    user-select: none;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+.form-info{
+    margin: 10px 0px;
 }

@@ -38,6 +38,10 @@ public class JobSeekerServiceImpl implements  JobSeekerService{
 
     @Override
     public void saveJobAnswers(List<JobAnswer> jobAnswers) {
+        for( JobAnswer jobAnswer : jobAnswers ){
+            String encodedAnswer = jobAnswer.getAnswerValue();
+            jobAnswer.setAnswerValue(encodedAnswer);
+        }
         jobAnswerRepository.saveAll(jobAnswers);
     }
 

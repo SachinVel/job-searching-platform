@@ -28,5 +28,9 @@ public interface CompanyService {
 
     List<JobApplication> getJobApplicationByJobId(Long jobId);
 
+    JobApplication getJobApplicationById(Long appId);
+
+    List<JobAnswer> getAnswersByApplicationId(Long applicationId);
+
     List<JobSeekerDetails> getAllJobSeekers();
 }

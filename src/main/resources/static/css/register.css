@@ -1,3 +1,11 @@
 .additional-details{
     display: none;
 }
+.registration-container{
+    display: inline-block;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}

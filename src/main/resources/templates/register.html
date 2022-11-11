@@ -5,97 +5,97 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/register.css}"/>
     <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
     <script type="text/javascript" th:src="@{/js/register.js}"></script>
-    <script>
-        $(window).on('load', function(){
-            Register.init();
-        });
-    </script>
 </head>
 <body>
-<h1>Registration Form</h1>
-<form th:object="${userForm}" method="POST" action="/register" enctype="utf8">
-    <div>
-        <label>Username</label>
-        <input th:field="*{user.username}"/>
-        <p th:each="error: ${#fields.errors('user.username')}"
-           th:text="${error}">Validation error</p>
-    </div>
-    <div>
-        <label>Email</label>
-        <input type="email" th:field="*{user.email}"/>
-        <p th:each="error : ${#fields.errors('user.email')}"
-           th:text="${error}">Validation error</p>
-    </div>
-    <div>
-        <label>Role</label>
-        <select name="user.role" id="user-role">
-            <option value="JOB_SEEKER" th:selected="${#strings.equals(userForm.user.role, 'JOB_SEEKER')}">JOB_SEEKER</option>
-            <option value="COMPANY_ADMIN" th:selected="${#strings.equals(userForm.user.role, 'COMPANY_ADMIN')}">COMPANY_ADMIN</option>
-        </select>
-        <p th:each="error : ${#fields.errors('user.role')}"
-           th:text="${user.role}">Validation error</p>
-    </div>
-    <div>
-        <label>password</label>
-        <input type="password" th:field="*{user.password}"/>
-        <p th:each="error : ${#fields.errors('user.password')}"
-           th:text="${error}">Validation error</p>
-    </div>
-    <div>
-        <label>confirm password</label>
-        <input type="password" th:field="*{user.passwordConfirm}"/>
-        <p th:each="error : ${#fields.errors('user.passwordConfirm')}"
-           th:text="${error}">Validation error</p>
-    </div>
+<h1 class="form-title">Registration Form</h1>
+<div class="registration-container">
+    
+    <form th:object="${userForm}" method="POST" action="/register" enctype="utf8">
+        <input type="hidden" name="_csrf" id="csrf-token"/>
+        <div class="form-unit">
+            <label class="form-label">Username</label>
+            <input th:field="*{user.username}" class="form-input"/>
+            <p th:each="error: ${#fields.errors('user.username')}"
+               th:text="${error}" class="error-message">Validation error</p>
+        </div>
+        <div class="form-unit">
+            <label class="form-label">Email</label>
+            <input type="email" th:field="*{user.email}" class="form-input"/>
+            <p th:each="error : ${#fields.errors('user.email')}"
+               th:text="${error}"  class="error-message">Validation error</p>
+        </div>
+        <div class="form-unit">
+            <label class="form-label">Role</label>
+            <select name="user.role" id="user-role" class="form-input">
+                <option value="JOB_SEEKER" th:selected="${#strings.equals(userForm.user.role, 'JOB_SEEKER')}">JOB_SEEKER</option>
+                <option value="COMPANY_ADMIN" th:selected="${#strings.equals(userForm.user.role, 'COMPANY_ADMIN')}">COMPANY_ADMIN</option>
+            </select>
+            <p th:each="error : ${#fields.errors('user.role')}"
+               th:text="${user.role}"  class="error-message">Validation error</p>
+        </div>
+        <div class="form-unit">
+            <label class="form-label">password</label>
+            <input type="password" th:field="*{user.password}" class="form-input"/>
+            <p th:each="error : ${#fields.errors('user.password')}"
+               th:text="${error}"  class="error-message">Validation error</p>
+        </div>
+        <div class="form-unit">
+            <label class="form-label">confirm password</label>
+            <input type="password" th:field="*{user.passwordConfirm}" class="form-input"/>
+            <p th:each="error : ${#fields.errors('user.passwordConfirm')}"
+               th:text="${error}"  class="error-message">Validation error</p>
+        </div>
+    
+        <div class="additional-details js-additional-details" id="job-seeker-container">
+            <h3>Job Seeker Details</h3>
+            <div class="form-unit">
+                <label class="form-label">Bio</label>
+                <input type="text" th:field="*{jobSeeker.bio}" class="form-input"/>
+                <p th:each="error : ${#fields.errors('jobSeeker.bio')}"
+                   th:text="${error}"  class="error-message">Validation error</p>
+            </div>
+            <div class="form-unit">
+                <label class="form-label">Address</label>
+                <textarea maxlength="200" th:field="*{jobSeeker.address}" class="form-text-area"/>
+                <p th:each="error : ${#fields.errors('jobSeeker.address')}"
+                   th:text="${error}"  class="error-message">Validation error</p>
+            </div>
+            <div class="form-unit">
+                <label class="form-label">Contact Info</label>
+                <input type="tel" th:field="*{jobSeeker.contactInfo}" placeholder="123-454-6784" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"  class="form-input">
+                <p th:each="error : ${#fields.errors('jobSeeker.contactInfo')}"
+                   th:text="${error}"  class="error-message">Validation error</p>
+            </div>
+        </div>
+    
+        <div class="additional-details js-additional-details" id="company-container">
+            <h3>Company Details</h3>
+            <div class="form-unit">
+                <label class="form-label">Company Name</label>
+                <input type="text" th:field="*{company.name}" class="form-input"/>
+                <p th:each="error : ${#fields.errors('company.name')}"
+                   th:text="${error}"  class="error-message">Validation error</p>
+            </div>
+            <div class="form-unit">
+                <label class="form-label">Address</label>
+                <textarea maxlength="200" th:field="*{company.address}" class="form-text-area"/>
+                <p th:each="error : ${#fields.errors('company.address')}"
+                   th:text="${error}"  class="error-message">Validation error</p>
+            </div>
+            <div class="form-unit">
+                <label class="form-label">Contact Info</label>
+                <input type="tel" th:field="*{company.contactInfo}" placeholder="123-454-6784" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"  class="form-input">
+                <p th:each="error : ${#fields.errors('company.contactInfo')}"
+                   th:text="${error}"  class="error-message">Validation error</p>
+            </div>
+        </div>
+        <button type="submit" class="primary-btn" >Submit</button>
+    </form>
+    
+    <p th:if="${message}" th:text="${message}" class="info-message">Server side error</p>
+    
+    <a th:href="@{/login}" class="custom-link">Already a User? Login</a>
+</div>
 
-    <div class="additional-details js-additional-details" id="job-seeker-container">
-        <h3>Job Seeker Details</h3>
-        <div>
-            <label>Bio</label>
-            <input type="text" th:field="*{jobSeeker.bio}"/>
-            <p th:each="error : ${#fields.errors('jobSeeker.bio')}"
-               th:text="${error}">Validation error</p>
-        </div>
-        <div>
-            <label>Address</label>
-            <textarea maxlength="200" th:field="*{jobSeeker.address}"/>
-            <p th:each="error : ${#fields.errors('jobSeeker.address')}"
-               th:text="${error}">Validation error</p>
-        </div>
-        <div>
-            <label>Contact Info</label>
-            <input type="text" th:field="*{jobSeeker.contactInfo}"/>
-            <p th:each="error : ${#fields.errors('jobSeeker.contactInfo')}"
-               th:text="${error}">Validation error</p>
-        </div>
-    </div>
-
-    <div class="additional-details js-additional-details" id="company-container">
-        <h3>Company Details</h3>
-        <div>
-            <label>Company Name</label>
-            <input type="text" th:field="*{company.name}"/>
-            <p th:each="error : ${#fields.errors('company.name')}"
-               th:text="${error}">Validation error</p>
-        </div>
-        <div>
-            <label>Address</label>
-            <textarea maxlength="200" th:field="*{company.address}"/>
-            <p th:each="error : ${#fields.errors('company.address')}"
-               th:text="${error}">Validation error</p>
-        </div>
-        <div>
-            <label>Contact Info</label>
-            <input type="tel" th:field="*{company.contactInfo}" placeholder="123-454-6784" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" >
-            <p th:each="error : ${#fields.errors('company.contactInfo')}"
-               th:text="${error}">Validation error</p>
-        </div>
-    </div>
-    <button type="submit" >submit</button>
-</form>
-
-<p th:if="${message}" th:text="${message}">Server side error</p>
-
-<a th:href="@{/login}">login</a>
 </body>
 </html>

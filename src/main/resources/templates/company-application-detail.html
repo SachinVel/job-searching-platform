@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<h3>Applicant Details</h3>
+<span th:text="${jobApplication.id}" style="display: none;" id="application-id" ></span>
+<div class="form-unit">
+    <label class="form-label">Username : </label>
+    <span th:text="${jobApplication.user.username}"></span>
+</div>
+<div class="form-unit">
+    <label class="form-label">Email : </label>
+    <span th:text="${jobApplication.user.email}"></span>
+</div>
+
+<div class="form-unit">
+    <label class="form-label">contactInfo : </label>
+    <span th:text="${jobSeeker.contactInfo}"></span>
+</div>
+<div class="form-unit">
+    <label class="form-label">Address : </label>
+    <span th:text="${jobSeeker.address}"></span>
+</div>
+
+<div class="form-unit">
+    <label class="form-label">Current Status : </label>
+    <span th:text="${jobApplication.applicationStatus}"></span>
+</div>
+
+<h3>Document</h3>
+
+<div th:if="${jobApplication.resumeDocument}" class="form-unit">
+    <label class="form-label">Resume : </label>
+    <span th:text="${jobApplication.resumeDocument.name}"></span>
+    <a th:href="@{/company/document/download/{id}(id=${jobApplication.resumeDocument.docId})}" download>Download</a>
+</div>
+
+<div th:if="${jobApplication.coverLetterDocument}" class="form-unit">
+    <label class="form-label">Cover Letter : </label>
+    <span th:text="${jobApplication.coverLetterDocument.name}"></span>
+    <a th:href="@{/company/document/download/{id}(id=${jobApplication.coverLetterDocument.docId})}" download>Download</a>
+</div>
+
+<h3>Answers</h3>
+
+<th:block th:each="jobAnswer: ${jobAnswers}">
+    <div class="form-unit">
+        <label class="form-label">Question : </label>
+        <span th:text="${jobAnswer.jobQuestion.questionName}"></span>
+    </div>
+    <div>
+        <label class="form-label">Answer : </label>
+        <span th:text="${jobAnswer.answerValue}"></span>
+    </div>
+</th:block>
+
+<div class="form-unit">
+    <button id="acccept-application-btn" class="primary-btn" style="background-color: #25bf25;">Accept</button>
+    <button id="reject-application-btn" class="primary-btn" style="background-color: #ff0000;">Reject</button>
+    <button id="waitlist-application-btn" class="primary-btn" style="background-color: #c8c713;">Waitlist</button>
+</div>
+
+<p th:if="${message}" th:text="${message}" class="info-message">Server side error</p>
+
+</html>

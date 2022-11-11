@@ -9,6 +9,7 @@ import com.jobs.jobsearch.service.CompanyService;
 import com.jobs.jobsearch.service.JobSeekerService;
 import com.jobs.jobsearch.service.JobSeekerServiceImpl;
 import com.jobs.jobsearch.service.UserService;
+import com.jobs.jobsearch.validator.JobSeekerValidator;
 import com.jobs.jobsearch.validator.UserValidator;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -256,22 +257,30 @@ public class JobSeekerController {
     }
 
     @PostMapping("/document/upload")
-    public String uploadDocument(@RequestParam("file") MultipartFile file, @RequestParam("docType")DocType docType, Model model) {
+    public String uploadDocument(@RequestParam("file") MultipartFile file, @RequestParam("docType")DocType docType, Model model, BindingResult bindingResult) {
         try {
+
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
-
             User user = userService.findByUsername(username);
+
+            JobSeekerValidator.validateDocument(user, file,bindingResult);
+
+            if( bindingResult.hasErrors() ) {
+                return "register";
+            }
+
             String userLocation = documentLocation+"/"+user.getId();
             Files.createDirectories(Paths.get(userLocation));
             var fileName = file.getOriginalFilename();
+            String normalizedFileName = Paths.get(fileName).normalize().toString();
             var is = file.getInputStream();
-            Files.copy(is, Paths.get(userLocation +"/"+ fileName),
+            Files.copy(is, Paths.get(userLocation +"/"+ normalizedFileName),
                     StandardCopyOption.REPLACE_EXISTING);
 
             JobDocument jobDocument = new JobDocument();
             jobDocument.setType(docType);
-            jobDocument.setName(file.getOriginalFilename());
+            jobDocument.setName(normalizedFileName);
             jobDocument.setUser(user);
             jobSeekerService.saveDocument(jobDocument);
 

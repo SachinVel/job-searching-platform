@@ -3,54 +3,54 @@
 
 
 <h3>Company details</h3>
-<div>
-    <label>Title : </label>
+<div class="form-unit">
+    <label class="form-label">Title : </label>
     <span th:text="${job.company.name}"></span>
 </div>
-<div>
-    <label>Address : </label>
+<div class="form-unit">
+    <label class="form-label">Address : </label>
     <span th:text="${job.company.address}"></span>
 </div>
-<div>
-    <label>Contact Info : </label>
+<div class="form-unit">
+    <label class="form-label">Contact Info : </label>
     <span th:text="${job.company.contactInfo}"></span>
 </div>
 
 <h3>Job Details</h3>
     
     <span th:text="${job.id}" style="display: none;" id="job-id"></span>
-    <div>
-        <label>Title : </label>
+    <div class="form-unit">
+        <label class="form-label">Title : </label>
         <span th:text="${job.title}"></span>
     </div>
-    <div>
-        <label>Description : </label>
+    <div class="form-unit">
+        <label class="form-label">Description : </label>
         <span th:text="${job.description}"></span>
     </div>
 
-    <div>
-        <label>Location</label>
+    <div class="form-unit">
+        <label class="form-label">Location</label>
         <span th:text="${job.location}"></span>
     </div>
 
-    <div>
-        <label>Is resume needed?</label>
+    <div class="form-unit">
+        <label class="form-label">Is resume needed?</label>
         <span th:text="${job.isResumeNeeded}"></span>
     </div>
 
-    <div>
-        <label>Is cover letter needed?</label>
+    <div class="form-unit">
+        <label class="form-label">Is cover letter needed?</label>
         <span th:text="${job.isCoverLetterNeeded}"></span>
     </div>
 
-    <div>
-        <label>expiry(in days)</label>
+    <div class="form-unit">
+        <label class="form-label">expiry(in days)</label>
         <span th:text="${job.expiryTime}"></span>
     </div>
 
 
-<button id="create-job-application-btn">Apply</button>
+<button id="create-job-application-btn" class="primary-btn">Apply</button>
 
-<p th:if="${message}" th:text="${message}">Server side error</p>
+<p th:if="${message}" th:text="${message}" class="info-message">Server side error</p>
 
 </html>

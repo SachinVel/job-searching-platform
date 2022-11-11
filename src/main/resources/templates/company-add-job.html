@@ -5,38 +5,38 @@
 <form th:object="${job}" id="job-form" action="/register" enctype="utf8">
     
     
-    <div>
-        <label>Title</label>
-        <input th:field="*{title}"/>
+    <div class="form-unit">
+        <label class="form-label">Title</label>
+        <input th:field="*{title}" class="form-input"/>
         <p th:each="error: ${#fields.errors('title')}"
-            th:text="${error}">Validation error</p>
+            th:text="${error}" class="error-message">Validation error</p>
     </div>
-    <div>
-        <label>Description</label>
-        <input th:field="*{description}"/>
+    <div class="form-unit">
+        <label class="form-label">Description</label>
+        <textarea maxlength="200" th:field="*{description}" class="form-text-area"/>
         <p th:each="error: ${#fields.errors('description')}"
-            th:text="${error}">Validation error</p>
+            th:text="${error}" class="error-message">Validation error</p>
     </div>
 
-    <div>
-        <label>Location</label>
-        <input th:field="*{location}"/>
+    <div class="form-unit">
+        <label class="form-label">Location</label>
+        <input th:field="*{location}" class="form-input"/>
         <p th:each="error: ${#fields.errors('location')}"
-            th:text="${error}">Validation error</p>
+            th:text="${error}" class="error-message">Validation error</p>
     </div>
 
-    <div>
-        <label>Is resume needed?</label>
+    <div class="form-unit">
+        <label class="form-label">Is resume needed?</label>
         <label for="yes-resume-btn">Yes</label>
         <input type="radio"  name="isResumeNeeded" value="yes" id="yes-resume-btn" th:checked="${#bools.isTrue(job.isResumeNeeded)}"/>
         <label for="no-resume-btn">No</label>
         <input type="radio"  name="isResumeNeeded" value="no" id="no-resume-btn" th:checked="${#bools.isFalse(job.isResumeNeeded)}"/>
         <p th:each="error: ${#fields.errors('isResumeNeeded')}"
-            th:text="${error}">Validation error</p>
+            th:text="${error}" class="error-message">Validation error</p>
     </div>
 
-    <div>
-        <label>Is cover letter needed?</label>
+    <div class="form-unit">
+        <label class="form-label">Is cover letter needed?</label>
         <label for="yes-cover-letter-btn">Yes</label>
         <input type="radio"  name="isCoverLetterNeeded" value="yes"  id="yes-cover-letter-btn" th:checked="${#bools.isTrue(job.isCoverLetterNeeded)}"/>
         <label for="no-cover-letter-btn">No</label>
@@ -45,9 +45,9 @@
             th:text="${error}">Validation error</p>
     </div>
 
-    <div>
-        <label>expiry(in days)</label>
-        <input type="number"  id="job-expiry-time-input" th:field="*{expiryTime}" />
+    <div class="form-unit">
+        <label class="form-label">expiry(in days)</label>
+        <input type="number"  id="job-expiry-time-input" th:field="*{expiryTime}"  class="form-input"/>
         <p th:each="error: ${#fields.errors('expiryTime')}"
             th:text="${error}">Validation error</p>
     </div>
@@ -58,20 +58,20 @@
 <input type="hidden"  name="job-id" id="job-id" th:value="${job.id}" th:if="${job.id != null}"/>
 
 
-<button id="add-job-question-btn">Add question</button>
+<button id="add-job-question-btn" class="secondary-btn">Add question</button>
 
 <div id="job-question-container">
     <th:block th:each="question: ${questions}">
-        <div>
-            <div>Question</div>
-            <button class="js-remove-job-question-btn">Remove</button>
-            <input type="text"  name="job-question" class="js-job-question" th:value="${question.questionName}"/>
+        <div class="form-unit">
+            <div class="form-label">Question</div>
+            <input type="text"  name="job-question" class="js-job-question form-input" th:value="${question.questionName}"/>
+            <button class="js-remove-job-question-btn secondary-btn">Remove</button>
         </div>
     </th:block>
 </div>
 
-<button id="save-job-btn">Save</button>
+<button id="save-job-btn" class="primary-btn">Save</button>
 
-<p th:if="${message}" th:text="${message}">Server side error</p>
+<p th:if="${message}" th:text="${message}" class="info-message">Server side error</p>
 
 </html>
