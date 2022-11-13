@@ -36,6 +36,11 @@ body{
     background-color : grey;
     color : white;
 }
+.side-bar-option-selected{
+    opacity: 0.8;
+    background-color : grey;
+    color : white;
+}
 .logout-link{
     color: inherit;
     text-decoration: inherit;
@@ -125,6 +130,7 @@ body{
 }
 
 .secondary-btn{
+    text-decoration: none;
     appearance: button;
     background-color:grey;
     border-radius: 6px;
@@ -147,6 +153,14 @@ body{
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+}
+.secondary-link{
+    text-decoration: none;
+    appearance: button;
+    background-color: grey;
+    padding: 8px;
+    border-radius: 5px;
+    color: white;
 }
 
 .table-btn{

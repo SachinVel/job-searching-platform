@@ -26,7 +26,6 @@ public class JobDocument {
     private DocType type;
 
     @NotEmpty
-    @Column(unique=true)
     private String name;
 
 }

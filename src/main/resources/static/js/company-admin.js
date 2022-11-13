@@ -210,15 +210,38 @@ const Company = new function () {
 
     this.getCSRFToken();
 
-    $('#profile-menu').on('click', function () {
+    window.addEventListener('hashchange', function(){
+      let hash = window.location.hash;
+      hash = hash.replace('#','');
+      $('#'+hash+'-menu' ).siblings('.side-bar-option').removeClass('side-bar-option-selected');
+      $('#'+hash+'-menu' ).addClass('side-bar-option-selected');
+      $( '#'+hash+"-menu" ).trigger( "click" );
+    });
+
+    
+    $('#main-body').on('click', '.js-refresh-btn', function () {
+      window.location.reload();
+    });
+
+    $('#profile-menu').on('click', function () 
+    {
+      window.location.hash = 'profile';
+      $( this ).siblings('.side-bar-option').removeClass('side-bar-option-selected');
+      $( this ).addClass('side-bar-option-selected');
       Company.getProfile();
     });
 
     $('#view-job-menu').on('click', function () {
+      window.location.hash = 'view-job';
+      $( this ).siblings('.side-bar-option').removeClass('side-bar-option-selected');
+      $( this ).addClass('side-bar-option-selected');
       Company.getJobs();
     });
 
     $('#add-job-menu').on('click', function () {
+      window.location.hash = 'add-job';
+      $( this ).siblings('.side-bar-option').removeClass('side-bar-option-selected');
+      $( this ).addClass('side-bar-option-selected');
       Company.showJobForm();
     });
 
@@ -294,6 +317,13 @@ const Company = new function () {
       let appId = $('#application-id').text();
       Company.updateApplicationStatus(appId, 'waitlist');
     });
+
+    let hash = window.location.hash;
+    hash = hash.replace("#","");
+    if( hash!=null ){
+      $( '#'+hash+"-menu" ).addClass('side-bar-option-selected');
+      $( '#'+hash+"-menu" ).trigger( "click" );
+    } 
 
   }
 }

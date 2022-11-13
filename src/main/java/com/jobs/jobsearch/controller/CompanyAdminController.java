@@ -57,8 +57,8 @@ public class CompanyAdminController {
     @Autowired
     private CompanyValidator companyValidator;
 
-    @Value("${document.location}")
-    private String documentLocation;
+    @Value("${project.location}")
+    private String projectLocation;
 
     @GetMapping("/index")
     public String companyAdminHome(){
@@ -231,6 +231,8 @@ public class CompanyAdminController {
 
             JobDocument curDoc = jobSeekerService.getDocument(docId);
 
+            String documentLocation = Paths.get(projectLocation,"src/main/resources/documents").toString();
+
             String docLocation = documentLocation+"/"+curDoc.getUser().getId()+"/"+curDoc.getName();
             Resource resource = new FileUrlResource(docLocation);
             if (resource == null) {
@@ -374,8 +376,8 @@ public class CompanyAdminController {
 
             String questions = formData.getFirst("questions");
 
+            List<JobQuestion> jobQuestions = new ArrayList<>();
             if( !questions.isEmpty() ) {
-                List<JobQuestion> jobQuestions = new ArrayList<>();
                 JSONArray jsonArray = new JSONArray(formData.getFirst("questions"));
                 for (int ind = 0; ind < jsonArray.length(); ++ind) {
                     JSONObject questionObj = jsonArray.getJSONObject(ind);
@@ -385,11 +387,13 @@ public class CompanyAdminController {
                     jobQuestion.setJob(curJob);
                     jobQuestions.add(jobQuestion);
                 }
-                companyService.saveJobQuestions(jobQuestions);
                 model.addAttribute("questions",jobQuestions);
             }
 
             curJob = companyService.saveJob(curJob);
+            if( !questions.isEmpty() ) {
+                companyService.saveJobQuestions(jobQuestions);
+            }
 
             model.addAttribute("job", new Job());
             model.addAttribute("message","Job created successfully.");

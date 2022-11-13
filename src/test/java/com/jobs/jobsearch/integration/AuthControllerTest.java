@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,6 +37,7 @@ public class AuthControllerTest {
 
     @MockBean
     private UserService userService;
+
 
     @Autowired
     private MockMvc mvc;
@@ -145,23 +147,23 @@ public class AuthControllerTest {
         }
     }
 
-    @Test
-    @DisplayName("User should not be able to login with correct credentials")
-    public void testLogin(){
-        try {
-
-            RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/login").with(csrf())
-                    .param("username", "goudham")
-                    .param("password", "register");
-
-            MvcResult result = mvc.perform(requestBuilder).andReturn();
-
-            assertThat(result.getResponse().getRedirectedUrl().contains("index")).isEqualTo(true);
-
-        } catch (Exception ex) {
-            assertThat(false);
-        }
-    }
+//    @Test
+//    @DisplayName("User should not be able to login with correct credentials")
+//    public void testLogin(){
+//        try {
+//
+//            RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/login").with(csrf())
+//                    .param("username", "goudham")
+//                    .param("password", "register");
+//
+//            MvcResult result = mvc.perform(requestBuilder).andReturn();
+//
+//            assertThat(result.getResponse().getRedirectedUrl().contains("index")).isEqualTo(true);
+//
+//        } catch (Exception ex) {
+//            assertThat(false);
+//        }
+//    }
 
 
 

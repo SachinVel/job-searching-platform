@@ -68,8 +68,8 @@ public class JobSeekerController {
     @Autowired
     private JobSeekerValidator jobSeekerValidator;
 
-    @Value("${document.location}")
-    private String documentLocation;
+    @Value("${project.location}")
+    private String projectLocation;
 
     @GetMapping("/index")
     public String jobseekerhome(){
@@ -370,6 +370,7 @@ public class JobSeekerController {
                 return "job-seeker-document";
             }
 
+            String documentLocation = Paths.get(projectLocation,"src/main/resources/documents").toString();
             String userLocation = documentLocation+"/"+user.getId();
             Files.createDirectories(Paths.get(userLocation));
             var fileName = file.getOriginalFilename();
@@ -413,6 +414,7 @@ public class JobSeekerController {
                 return ResponseEntity.badRequest().build();
             }
 
+            String documentLocation = Paths.get(projectLocation,"src/main/resources/documents").toString();
             String docLocation = documentLocation+"/"+user.getId()+"/"+curDoc.getName();
             Resource resource = new FileUrlResource(docLocation);
             if (resource == null) {
@@ -449,6 +451,7 @@ public class JobSeekerController {
 
             jobSeekerService.deleteDocument(docId);
 
+            String documentLocation = Paths.get(projectLocation,"src/main/resources/documents").toString();
             String userLocation = documentLocation+"/"+user.getId();
             Files.delete(Paths.get(userLocation +"/"+ curDoc.getName()));
 

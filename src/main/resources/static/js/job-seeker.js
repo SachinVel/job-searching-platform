@@ -178,6 +178,19 @@ const Seeker = new function () {
 
     this.getCSRFToken();
 
+    window.addEventListener('hashchange', function(){
+      let hash = window.location.hash;
+      hash = hash.replace('#','');
+      $('#'+hash+'-menu' ).siblings('.side-bar-option').removeClass('side-bar-option-selected');
+      $('#'+hash+'-menu' ).addClass('side-bar-option-selected');
+      $( '#'+hash+"-menu" ).trigger( "click" );
+    });
+
+    
+    $('#main-body').on('click', '.js-refresh-btn', function () {
+      window.location.reload();
+    });
+
     $('#main-body').on('keyup', '#job-search-input', function () {
       var value = $(this).val().toLowerCase();
       $("#job-table tr.table-entry").filter(function() {
@@ -186,18 +199,30 @@ const Seeker = new function () {
     });
 
     $('#profile-menu').on('click', function () {
+      window.location.hash = 'profile';
+      $( this ).siblings('.side-bar-option').removeClass('side-bar-option-selected');
+      $( this ).addClass('side-bar-option-selected');
       Seeker.getProfile();
     });
 
     $('#document-menu').on('click', function () {
+      window.location.hash = 'document';
+      $( this ).siblings('.side-bar-option').removeClass('side-bar-option-selected');
+      $( this ).addClass('side-bar-option-selected');
       Seeker.getDocument();
     });
 
     $('#job-menu').on('click', function () {
+      window.location.hash = 'job';
+      $( this ).siblings('.side-bar-option').removeClass('side-bar-option-selected');
+      $( this ).addClass('side-bar-option-selected');
       Seeker.getJob();
     });
 
     $('#job-application-menu').on('click', function () {
+      window.location.hash = 'job-application';
+      $( this ).siblings('.side-bar-option').removeClass('side-bar-option-selected');
+      $( this ).addClass('side-bar-option-selected');
       Seeker.getJobApplications();
     });
 
@@ -266,6 +291,14 @@ const Seeker = new function () {
       let appId = $(this).closest('td').siblings('.js-app-id').text();
       Seeker.withdrawApplication(appId);
     });
+
+
+    let hash = window.location.hash;
+    hash = hash.replace("#","");
+    if( hash!=null ){
+      $( '#'+hash+"-menu" ).addClass('side-bar-option-selected');
+      $( '#'+hash+"-menu" ).trigger( "click" );
+    } 
 
   }
 }

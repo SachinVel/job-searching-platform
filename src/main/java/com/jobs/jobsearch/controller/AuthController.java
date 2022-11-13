@@ -23,10 +23,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.util.HtmlUtils;
 import org.springframework.web.util.JavaScriptUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -54,9 +57,9 @@ public class AuthController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>(authentication.getAuthorities());
         if( list.get(0).getAuthority().equals("JOB_SEEKER") ){
-            return "redirect:/seeker/index";
+            return "redirect:/seeker/index#job";
         }else{
-            return "redirect:/company/index";
+            return "redirect:/company/index#add-job";
         }
 
     }
@@ -67,19 +70,39 @@ public class AuthController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>(authentication.getAuthorities());
         if( list.get(0).getAuthority().equals("JOB_SEEKER") ){
-            return "redirect:/seeker/index";
+            return "redirect:/seeker/index#job";
         }else{
-            return "redirect:/company/index";
+            return "redirect:/company/index#add-job";
         }
 
     }
 
     @GetMapping("/login")
     public String showLoginPage(Model model, String error, String logout){
-        if (error != null)
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if( authentication!=null ){
+            List<GrantedAuthority> list = new ArrayList<GrantedAuthority>(authentication.getAuthorities());
+            if( list.get(0).getAuthority().equals("JOB_SEEKER") ){
+                return "redirect:/seeker/index";
+            }else if(list.get(0).getAuthority().equals("COMPANY_ADMIN")){
+                return "redirect:/company/index";
+            }
+        }
+
+        String loginError = (String)req.getSession().getAttribute("loginError");
+
+        if( loginError!=null ){
+            model.addAttribute("error", loginError);
+            req.getSession().removeAttribute("loginError");
+        }
+        if (error != null){
             model.addAttribute("error", "Your username and password is invalid.");
-        if (logout != null)
+        }
+        if (logout != null){
             model.addAttribute("message", "You have been logged out successfully.");
+        }
         return "login";
     }
 
