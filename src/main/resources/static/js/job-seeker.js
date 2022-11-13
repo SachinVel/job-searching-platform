@@ -178,6 +178,13 @@ const Seeker = new function () {
 
     this.getCSRFToken();
 
+    $('#main-body').on('keyup', '#job-search-input', function () {
+      var value = $(this).val().toLowerCase();
+      $("#job-table tr.table-entry").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+
     $('#profile-menu').on('click', function () {
       Seeker.getProfile();
     });

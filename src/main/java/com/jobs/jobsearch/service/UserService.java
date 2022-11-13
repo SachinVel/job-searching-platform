@@ -7,6 +7,21 @@ import com.jobs.jobsearch.model.User;
 import com.jobs.jobsearch.model.VerificationToken;
 
 public interface UserService {
+
+    public static final int MAX_FAILED_ATTEMPTS = 5;
+
+    public static final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+
+    public void increaseFailedAttempts(User user);
+
+    public void resetFailedAttempts(String username);
+
+    public void lock(User user);
+
+
+    public boolean unlockWhenTimeExpired(User user);
+
+
     User saveUser(User user) throws UserAlreadyExistException;
 
     void updateUser(User user);

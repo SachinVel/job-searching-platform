@@ -28,6 +28,8 @@
         </form>
         <a th:href="@{/register}">Create new Account</a>
         <p th:if="${message}" th:text="${message}" class="info-message">Server side error</p>
+        <p th:if="${param.loginError}" th:text="${param.loginError}"  class="error-message"></p>
+
     </div>
 
 

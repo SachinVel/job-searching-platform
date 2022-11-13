@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Getter
@@ -35,9 +36,17 @@ public class User {
     @NotEmpty
     public String passwordConfirm;
 
+
+    private boolean accountNonLocked;
+
+    private int failedAttempt;
+
+    private Date lockTime;
+
     public User() {
         super();
         this.enabled=false;
+        this.accountNonLocked = true;
     }
 
 

@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-    <table class="styled-table">
+    <input type="text" id="job-search-input" placeholder="Search" class="form-input" />
+    <table class="styled-table" id="job-table">
         <tr>
             <th>Company Name</th>
             <th>Title</th>
             <th>Location</th>
         </tr>
         <th:block th:each="job: ${jobs}">
-            <tr>
+            <tr class="table-entry">
                 <td th:text="${job.id}" style="display: none;" class="js-job-id"/>
-                <td th:text="${job.company.name}" />
-                <td th:text="${job.title}" />
-                <td th:text="${job.location}" />
+                <td th:text="${job.company.name}" class="search-enable-input"/>
+                <td th:text="${job.title}" class="search-enable-input"/>
+                <td th:text="${job.location}" class="search-enable-input"/>
                 <td><button class="js-view-job-btn table-btn">View</button></td>
             </tr>
         </th:block>
