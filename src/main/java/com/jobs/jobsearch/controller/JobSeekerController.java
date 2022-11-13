@@ -65,6 +65,9 @@ public class JobSeekerController {
     @Autowired
     private UserValidator userValidator;
 
+    @Autowired
+    private JobSeekerValidator jobSeekerValidator;
+
     @Value("${document.location}")
     private String documentLocation;
 
@@ -75,42 +78,109 @@ public class JobSeekerController {
 
     @GetMapping("/job")
     public String getAllJobs(Model model){
-        List<Job> jobs = companyService.getAllJobs();
-        model.addAttribute("jobs",jobs);
-        return "job-seeker-job";
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+
+            List<Job> jobs = companyService.getAllJobs();
+            model.addAttribute("jobs",jobs);
+            LOGGER.info("Company jobs are fetched by user : {}",username);
+            return "job-seeker-job";
+        }catch (Exception ex){
+            LOGGER.error("Exception while viewing jobs {}",ex);
+            model.addAttribute("message","Error occurred while viewing job application");
+            return "error";
+        }
     }
 
     @GetMapping("/application/{jobId}")
     public String getJobApplication(@PathVariable("jobId")Long jobId,Model model){
-        Job job = companyService.getJob(jobId);
-        Long expiryTimestamp = job.getExpiryTime();
-        double expiryInDays = (int)(expiryTimestamp/(24*60*60*1000))-(System.currentTimeMillis()/(24*60*60*1000));
-        long days = (int)Math.ceil(expiryInDays);
-        job.setExpiryTime(days);
 
-        List<JobQuestion> jobQuestions = companyService.getJobQuestions(jobId);
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            User user = userService.findByUsername(username);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userService.findByUsername(username);
-        List<JobDocument> userDocuments = jobSeekerService.getUserDocuments(user.getId());
+            Job job = companyService.getJob(jobId);
+            Long expiryTimestamp = job.getExpiryTime();
+            double expiryInDays = (int)(expiryTimestamp/(24*60*60*1000))-(System.currentTimeMillis()/(24*60*60*1000));
+            long days = (int)Math.ceil(expiryInDays);
+            job.setExpiryTime(days);
 
-        model.addAttribute("job",job);
-        model.addAttribute("questions",jobQuestions);
-        model.addAttribute("documents",userDocuments);
-        return "job-seeker-add-application";
+            List<JobApplication> jobApplications = companyService.getJobApplicationByJobId(jobId);
+            for( JobApplication jobApplication : jobApplications ){
+                if( jobApplication.getUser().getId()==user.getId() ){
+                    model.addAttribute("job",job);
+                    model.addAttribute("message","You already applied to this job!");
+                    return "job-seeker-job-detail";
+                }
+            }
+
+            List<JobQuestion> jobQuestions = companyService.getJobQuestions(jobId);
+
+            List<JobDocument> userDocuments = jobSeekerService.getUserDocuments(user.getId());
+
+            model.addAttribute("job",job);
+            model.addAttribute("questions",jobQuestions);
+            model.addAttribute("documents",userDocuments);
+            LOGGER.info("Job applications of jobId {} is accessed by user : {}",jobId,user.getUsername());
+            return "job-seeker-add-application";
+        }catch (Exception ex){
+            LOGGER.error("Exception while viewing job application {}",ex);
+            model.addAttribute("message","Error occurred while viewing job application");
+            return "error";
+        }
+
     }
 
     @GetMapping("/application")
     public String getJobApplications(Model model){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userService.findByUsername(username);
-        List<JobApplication> userJobApplications = jobSeekerService.getUserJobApplications(user.getId());
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            User user = userService.findByUsername(username);
+            List<JobApplication> userJobApplications = jobSeekerService.getUserJobApplications(user.getId());
 
-        model.addAttribute("jobApplications",userJobApplications);
-        return "job-seeker-application";
+            model.addAttribute("jobApplications",userJobApplications);
+            return "job-seeker-application";
+        }catch (Exception ex){
+            LOGGER.error("Exception while viewing job applications {}",ex);
+            model.addAttribute("message","Error occurred while viewing job applications");
+            return "error";
+        }
+
+
+    }
+
+    @DeleteMapping("/application/{applicationId}")
+        public String deleteJobApplications(@PathVariable("applicationId")Long applicationId,Model model){
+
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            User user = userService.findByUsername(username);
+
+            List<JobApplication> userJobApplications = jobSeekerService.getUserJobApplications(user.getId());
+            JobApplication jobApplication = jobSeekerService.getApplication(applicationId);
+            if( jobApplication.getUser().getId()!=user.getId() ){
+                model.addAttribute("message","Unauthorized access");
+                return "error";
+            }
+            jobSeekerService.deleteJobApplication(applicationId);
+
+            userJobApplications = jobSeekerService.getUserJobApplications(user.getId());
+
+            model.addAttribute("message","The application has been withdrawn successfully");
+            model.addAttribute("jobApplications",userJobApplications);
+            return "job-seeker-application";
+        }catch (Exception ex){
+            LOGGER.error("Exception while deleting job application {}",ex);
+            model.addAttribute("message","Error occurred while viewing job applications");
+            return "error";
+        }
+
+
     }
 
     @PostMapping(
@@ -155,7 +225,7 @@ public class JobSeekerController {
             jobSeekerService.saveJobAnswers(jobAnswers);
             model.addAttribute("message","Application has been submitted successfully");
         }catch (Exception ex){
-            LOGGER.error("Exception during application submission : {0}",ex);
+            LOGGER.error("Exception during application submission : {}",ex);
             model.addAttribute("message","There is some error in submitting application");
         }
 
@@ -168,31 +238,51 @@ public class JobSeekerController {
 
     @GetMapping("/job/{jobId}")
     public String getJobDetails(@PathVariable("jobId")Long jobId,Model model){
-        Job job = companyService.getJob(jobId);
-        Long expiryTimestamp = job.getExpiryTime();
-        double expiryInDays = (int)(expiryTimestamp/(24*60*60*1000))-(System.currentTimeMillis()/(24*60*60*1000));
-        long days = (int)Math.ceil(expiryInDays);
-        job.setExpiryTime(days);
-        model.addAttribute("job",job);
-        return "job-seeker-job-detail";
+        try{
+            Job job = companyService.getJob(jobId);
+            Long expiryTimestamp = job.getExpiryTime();
+            double expiryInDays = (int)(expiryTimestamp/(24*60*60*1000))-(System.currentTimeMillis()/(24*60*60*1000));
+            long days = (int)Math.ceil(expiryInDays);
+            job.setExpiryTime(days);
+            model.addAttribute("job",job);
+            return "job-seeker-job-detail";
+        }catch (Exception ex){
+            LOGGER.error("Exception during viewing job details : {}",ex);
+            model.addAttribute("message","There is some error in viewing job details");
+            return "error";
+        }
+
     }
-
-
 
     @GetMapping("/profile")
     public String getJobseekerProfile(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userService.findByUsername(username);
-        JobSeekerDetails curJobseekerDetails = userService.getJobSeekerDetails(user.getId());
-        model.addAttribute("jobSeekerDetails",curJobseekerDetails);
-        return "job-seeker-profile";
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            User user = userService.findByUsername(username);
+            JobSeekerDetails curJobseekerDetails = userService.getJobSeekerDetails(user.getId());
+            model.addAttribute("jobSeekerDetails",curJobseekerDetails);
+            return "job-seeker-profile";
+        }catch (Exception ex){
+            LOGGER.error("Exception during viewing  profile : {}",ex);
+            model.addAttribute("message","There is some error in viewing profile");
+            return "error";
+        }
+
     }
 
     @PostMapping("/profile")
     public String updateJobSeekerProfile(@ModelAttribute("jobSeekerDetails") JobSeekerDetails jobSeekerDetails,  Model model, BindingResult bindingResult) throws UserAlreadyExistException {
 
         try{
+
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            User user = userService.findByUsername(username);
+            if( user.getId()!=jobSeekerDetails.getUser().getId() ){
+                model.addAttribute("message","Unauthorized access");
+                return "error";
+            }
             User updatedUser = jobSeekerDetails.getUser();
             User existingUser = userService.findById(updatedUser.getId());
             boolean isUserNameChanged = false, isPasswordChanged=false;
@@ -208,7 +298,7 @@ public class JobSeekerController {
                 return "job-seeker-profile";
             }
 
-            String username, password;
+            String password;
             if( isPasswordChanged ){
                 existingUser.password = updatedUser.password;
                 existingUser.username = updatedUser.username;
@@ -223,7 +313,7 @@ public class JobSeekerController {
                         (Collection<SimpleGrantedAuthority>)SecurityContextHolder.getContext()
                                 .getAuthentication()
                                 .getAuthorities();
-                UsernamePasswordAuthenticationToken authentication =
+                authentication =
                         new UsernamePasswordAuthenticationToken(existingUser.getUsername(), existingUser.getPassword(), nowAuthorities);
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -237,37 +327,47 @@ public class JobSeekerController {
 
             model.addAttribute("jobSeekerDetails",jobSeekerDetails);
             model.addAttribute("message","Profile has been updated successfully");
-
+            return "job-seeker-profile";
         }catch (Exception ex){
             LOGGER.error("Exception in updating job seeker details : {0}",ex);
+            return "error";
         }
 
-        return "job-seeker-profile";
+
 
     }
 
     @GetMapping("/document")
     public String getJobDocument(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userService.findByUsername(username);
-        List<JobDocument> jobDocuments = jobSeekerService.getUserDocuments(user.getId());
-        model.addAttribute("jobDocuments",jobDocuments);
-        return "job-seeker-document";
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            User user = userService.findByUsername(username);
+            List<JobDocument> jobDocuments = jobSeekerService.getUserDocuments(user.getId());
+            model.addAttribute("jobDocuments",jobDocuments);
+            return "job-seeker-document";
+        }catch (Exception ex){
+            LOGGER.error("Exception in updating job Documents : {0}",ex);
+            return "error";
+        }
+
+
     }
 
     @PostMapping("/document/upload")
-    public String uploadDocument(@RequestParam("file") MultipartFile file, @RequestParam("docType")DocType docType, Model model, BindingResult bindingResult) {
+    public String uploadDocument(@RequestParam("file") MultipartFile file, @RequestParam("docType")DocType docType, Model model) {
         try {
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
             User user = userService.findByUsername(username);
 
-            JobSeekerValidator.validateDocument(user, file,bindingResult);
+            boolean isValidationCorrect = jobSeekerValidator.validateDocument(user, file,model);
 
-            if( bindingResult.hasErrors() ) {
-                return "register";
+            if( !isValidationCorrect ) {
+                List<JobDocument> jobDocuments = jobSeekerService.getUserDocuments(user.getId());
+                model.addAttribute("jobDocuments",jobDocuments);
+                return "job-seeker-document";
             }
 
             String userLocation = documentLocation+"/"+user.getId();
@@ -291,8 +391,10 @@ public class JobSeekerController {
             return "job-seeker-document";
 
         } catch (Exception e) {
+
             LOGGER.error("Exception when uploading document : {}",e);
-            return "job-seeker-document";
+            model.addAttribute("message","Error while upload document. Please Try again later.");
+            return "error";
         }
     }
 
@@ -358,7 +460,8 @@ public class JobSeekerController {
 
         } catch (Exception e) {
             LOGGER.error("Exception when uploading document : {}",e);
-            return "job-seeker-document";
+            model.addAttribute("message","Error in deleting document");
+            return "error";
         }
     }
 

@@ -1,0 +1,63 @@
+2022-11-12 00:37:25.225  INFO 62847 --- [restartedMain] com.jobs.jobsearch.JobsearchApplication  : Starting JobsearchApplication using Java 18.0.2.1 on sachin-kanini.local with PID 62847 (/Users/sachinvel/git/job-searching-platform/target/classes started by sachinvel in /Users/sachinvel/git/job-searching-platform)
+2022-11-12 00:37:25.225 DEBUG 62847 --- [restartedMain] com.jobs.jobsearch.JobsearchApplication  : Running with Spring Boot v2.7.4, Spring v5.3.23
+2022-11-12 00:37:25.226  INFO 62847 --- [restartedMain] com.jobs.jobsearch.JobsearchApplication  : No active profile set, falling back to 1 default profile: "default"
+2022-11-12 00:37:25.250  INFO 62847 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-11-12 00:37:25.250  INFO 62847 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-11-12 00:37:25.545  INFO 62847 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-11-12 00:37:25.577  INFO 62847 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27 ms. Found 9 JPA repository interfaces.
+2022-11-12 00:37:25.903  INFO 62847 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 443 (https)
+2022-11-12 00:37:25.908  INFO 62847 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-12 00:37:25.908  INFO 62847 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
+2022-11-12 00:37:25.938  INFO 62847 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-12 00:37:25.939  INFO 62847 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 689 ms
+2022-11-12 00:37:26.022  INFO 62847 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-11-12 00:37:26.040  INFO 62847 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.11.Final
+2022-11-12 00:37:26.099  INFO 62847 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-11-12 00:37:26.139  INFO 62847 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-11-12 00:37:26.288  INFO 62847 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-11-12 00:37:26.294  INFO 62847 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2022-11-12 00:37:26.691  INFO 62847 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-11-12 00:37:26.695  INFO 62847 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-11-12 00:37:26.882  WARN 62847 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-11-12 00:37:27.038  INFO 62847 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3be6b323, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@48d0c416, org.springframework.security.web.context.SecurityContextPersistenceFilter@bc86ee, org.springframework.security.web.header.HeaderWriterFilter@28072361, org.springframework.security.web.csrf.CsrfFilter@31b47206, org.springframework.security.web.authentication.logout.LogoutFilter@7ea1fc9a, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@730a6a08, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@208880f5, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@18908da8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2006e523, org.springframework.security.web.session.SessionManagementFilter@4b187356, org.springframework.security.web.access.ExceptionTranslationFilter@1d61f07b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@43eec54f]
+2022-11-12 00:37:27.092 DEBUG 62847 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2022-11-12 00:37:27.106  INFO 62847 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2022-11-12 00:37:27.135 DEBUG 62847 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 35 mappings in 'requestMappingHandlerMapping'
+2022-11-12 00:37:27.143 DEBUG 62847 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2022-11-12 00:37:27.147 DEBUG 62847 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2022-11-12 00:37:27.190  INFO 62847 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-11-12 00:37:27.284  INFO 62847 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 443 (https) with context path ''
+2022-11-12 00:37:27.290  INFO 62847 --- [restartedMain] com.jobs.jobsearch.JobsearchApplication  : Started JobsearchApplication in 2.226 seconds (JVM running for 2.421)
+2022-11-12 00:37:31.103  INFO 62847 --- [https-jsse-nio-443-exec-9] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-12 00:37:31.104  INFO 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-12 00:37:31.104 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2022-11-12 00:37:31.104 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2022-11-12 00:37:31.104 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2022-11-12 00:37:31.104 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@babc051
+2022-11-12 00:37:31.104 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@133c7f3c
+2022-11-12 00:37:31.104 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2022-11-12 00:37:31.104  INFO 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2022-11-12 00:37:31.117 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/seeker/index", parameters={}
+2022-11-12 00:37:31.119 DEBUG 62847 --- [https-jsse-nio-443-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.jobs.jobsearch.controller.JobSeekerController#jobseekerhome()
+2022-11-12 00:37:31.130 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2022-11-12 00:37:31.240 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2022-11-12 00:37:31.254 DEBUG 62847 --- [https-jsse-nio-443-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/css/common.css", parameters={}
+2022-11-12 00:37:31.257 DEBUG 62847 --- [https-jsse-nio-443-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2022-11-12 00:37:31.268 DEBUG 62847 --- [https-jsse-nio-443-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2022-11-12 00:37:31.269 DEBUG 62847 --- [https-jsse-nio-443-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/css/job-seeker.css", parameters={}
+2022-11-12 00:37:31.269 DEBUG 62847 --- [https-jsse-nio-443-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2022-11-12 00:37:31.270 DEBUG 62847 --- [https-jsse-nio-443-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2022-11-12 00:37:31.271 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/js/jquery.js", parameters={}
+2022-11-12 00:37:31.272 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2022-11-12 00:37:31.275 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2022-11-12 00:37:31.277 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/js/job-seeker.js", parameters={}
+2022-11-12 00:37:31.278 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2022-11-12 00:37:31.279 DEBUG 62847 --- [https-jsse-nio-443-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2022-11-12 00:37:31.607 DEBUG 62847 --- [https-jsse-nio-443-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/seeker/job", parameters={}
+2022-11-12 00:37:31.608 DEBUG 62847 --- [https-jsse-nio-443-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.jobs.jobsearch.controller.JobSeekerController#getAllJobs(Model)
+2022-11-12 00:37:31.697  INFO 62847 --- [https-jsse-nio-443-exec-6] c.j.j.controller.JobSeekerController     : Company jobs are fetched by user : goudham
+2022-11-12 00:37:31.697 DEBUG 62847 --- [https-jsse-nio-443-exec-6] o.s.w.s.v.ContentNegotiatingViewResolver : Selected '*/*' given [*/*]
+2022-11-12 00:37:31.702 DEBUG 62847 --- [https-jsse-nio-443-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2022-11-12 00:38:08.347  INFO 62847 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-11-12 00:38:08.349  INFO 62847 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-11-12 00:38:08.352  INFO 62847 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

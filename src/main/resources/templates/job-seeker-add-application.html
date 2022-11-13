@@ -26,7 +26,7 @@
         </select>
     </div>
     <div th:if="${#bools.isTrue(job.isCoverLetterNeeded)}" class="form-unit">
-        <label class="form-label">Upload Resume</label>
+        <label class="form-label">Upload Cover Letter</label>
         <select name="cover-letter-input" id="cover-letter-input">
             <th:block th:each="document: ${documents}">
                 <option th:value="${document.docId}" th:if="${#strings.equals(document.type, 'COVER_LETTER')}" th:text="${document.name}"></option>

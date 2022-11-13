@@ -7,20 +7,20 @@
             <label class="form-label">Username</label>
             <input th:field="*{user.username}" class="form-input"/>
             <p th:each="error: ${#fields.errors('user.username')}"
-               th:text="${error}">Validation error</p>
+               th:text="${error}" class="error-message">Validation error</p>
         </div>
 
         <div class="form-unit">
             <label class="form-label">password</label>
             <input type="password" th:field="*{user.password}" class="form-input"/>
             <p th:each="error : ${#fields.errors('user.password')}"
-               th:text="${error}">Validation error</p>
+               th:text="${error}" class="error-message">Validation error</p>
         </div>
         <div class="form-unit">
             <label class="form-label">confirm password</label>
             <input type="password" th:field="*{user.passwordConfirm}" class="form-input"/>
             <p th:each="error : ${#fields.errors('user.passwordConfirm')}"
-               th:text="${error}">Validation error</p>
+               th:text="${error}" class="error-message">Validation error</p>
         </div>
     
         <div class="additional-details js-additional-details" id="job-seeker-container">
@@ -29,19 +29,19 @@
                 <label class="form-label">Bio</label>
                 <input type="text" th:field="*{bio}" class="form-input"/>
                 <p th:each="error : ${#fields.errors('bio')}"
-                   th:text="${error}">Validation error</p>
+                   th:text="${error}" class="error-message">Validation error</p>
             </div>
             <div class="form-unit">
                 <label class="form-label">Address</label>
                 <textarea maxlength="200" th:field="*{address}" class="form-text-area"/>
                 <p th:each="error : ${#fields.errors('address')}"
-                   th:text="${error}">Validation error</p>
+                   th:text="${error}" class="error-message">Validation error</p>
             </div>
             <div class="form-unit">
                 <label class="form-label">Contact Info</label>
                 <input type="text" th:field="*{contactInfo}" class="form-input"/>
                 <p th:each="error : ${#fields.errors('contactInfo')}"
-                   th:text="${error}">Validation error</p>
+                   th:text="${error}" class="error-message">Validation error</p>
             </div>
         </div>
 

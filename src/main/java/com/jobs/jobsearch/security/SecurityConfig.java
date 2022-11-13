@@ -23,7 +23,10 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
+                .authorizeRequests()
                 .antMatchers("/js/**", "/css/**", "/register/**").permitAll()
                 .antMatchers("/seeker/**").hasAnyAuthority("JOB_SEEKER")
                 .antMatchers("/company/**").hasAnyAuthority("COMPANY_ADMIN")
@@ -35,12 +38,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
-
-        http.csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-
-        http.headers()
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+                .and()
+                .headers()
                 .xssProtection()
                 .and()
                 .contentSecurityPolicy("script-src 'self'");;

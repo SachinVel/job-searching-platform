@@ -8,20 +8,20 @@
     <div class="form-unit">
         <label class="form-label">Title</label>
         <input th:field="*{title}" class="form-input"/>
-        <p th:each="error: ${#fields.errors('title')}"
+        <p th:each="error: ${jobTitleError}"
             th:text="${error}" class="error-message">Validation error</p>
     </div>
     <div class="form-unit">
         <label class="form-label">Description</label>
         <textarea maxlength="200" th:field="*{description}" class="form-text-area"/>
-        <p th:each="error: ${#fields.errors('description')}"
+        <p th:each="error: ${jobDescriptionError}"
             th:text="${error}" class="error-message">Validation error</p>
     </div>
 
     <div class="form-unit">
         <label class="form-label">Location</label>
         <input th:field="*{location}" class="form-input"/>
-        <p th:each="error: ${#fields.errors('location')}"
+        <p th:each="error: ${jobLocationError}"
             th:text="${error}" class="error-message">Validation error</p>
     </div>
 
@@ -48,8 +48,8 @@
     <div class="form-unit">
         <label class="form-label">expiry(in days)</label>
         <input type="number"  id="job-expiry-time-input" th:field="*{expiryTime}"  class="form-input"/>
-        <p th:each="error: ${#fields.errors('expiryTime')}"
-            th:text="${error}">Validation error</p>
+        <p th:each="error: ${jobExpiryError}"
+            th:text="${error}" class="error-message">Validation error</p>
     </div>
 
 </form>
@@ -69,6 +69,9 @@
         </div>
     </th:block>
 </div>
+
+<p th:each="error: ${jobQuesitonError}"
+            th:text="${error}" class="error-message">Validation error</p>
 
 <button id="save-job-btn" class="primary-btn">Save</button>
 

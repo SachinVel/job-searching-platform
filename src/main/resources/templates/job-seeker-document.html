@@ -15,7 +15,7 @@
                     <option value="COVER_LETTER">COVER_LETTER</option>
                 </select>
             </div>
-            <p th:each="error: ${#fields.errors('jobDocument')}"
+            <p th:each="error: ${jobDocumentError}"
                th:text="${error}" class="error-message">Validation error</p>
         </form>
         <button id="upload-document-btn" class="primary-btn">Upload</button>
@@ -49,6 +49,6 @@
 
 
 
-<p th:if="${message}" th:text="${message}">Server side error</p>
+<p th:if="${message}" th:text="${message}" class="info-message">Server side error</p>
 
 </html>

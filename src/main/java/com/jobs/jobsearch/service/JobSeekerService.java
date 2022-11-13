@@ -13,6 +13,10 @@ public interface JobSeekerService {
 
     List<JobApplication> getUserJobApplications(Long userId);
 
+    JobApplication getApplication(Long appId);
+
+    void deleteJobApplication(Long applicationId);
+
     void saveJobAnswers(List<JobAnswer> jobAnswers);
 
     void saveDocument(JobDocument jobDocument);

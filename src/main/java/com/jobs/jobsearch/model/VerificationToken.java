@@ -11,8 +11,9 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
-@Entity
+
 @Setter
+@Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

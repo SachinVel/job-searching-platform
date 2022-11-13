@@ -78,11 +78,13 @@ const Company = new function () {
     let questions = [];
     $('.js-job-question').each(function (index) {
       if ($(this).val()) {
-        questions.push($(this).val());
+        questions.push({
+          'questionVal' : $(this).val()
+        });
       }
     });
 
-    formData.set('questions', questions);
+    formData.set('questions', JSON.stringify(questions));
 
     const queryString = new URLSearchParams(formData).toString();
 
@@ -104,11 +106,13 @@ const Company = new function () {
     let questions = [];
     $('.js-job-question').each(function (index) {
       if ($(this).val()) {
-        questions.push($(this).val());
+        questions.push({
+          'questionVal' : $(this).val()
+        });
       }
     });
 
-    formData.set('questions', questions);
+    formData.set('questions', JSON.stringify(questions));
     formData.set('jobId', jobId);
 
     const queryString = new URLSearchParams(formData).toString();
@@ -189,6 +193,17 @@ const Company = new function () {
     });
   }
 
+  this.logout = function(){
+    $.ajax({
+      type: 'POST',
+      url: '/logout',
+      headers: { 'X-XSRF-TOKEN': csrfToken },
+      success: function (response) {
+        window.location.href="/login?logout";
+      }
+    });
+  }
+
 
 
   this.init = function () {
@@ -205,6 +220,10 @@ const Company = new function () {
 
     $('#add-job-menu').on('click', function () {
       Company.showJobForm();
+    });
+
+    $('#logout-btn').on('click', function () {
+      Company.logout();
     });
 
     //profile section

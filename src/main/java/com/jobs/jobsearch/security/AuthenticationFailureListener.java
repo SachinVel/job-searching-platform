@@ -6,7 +6,8 @@ import org.springframework.security.authentication.event.AuthenticationFailureBa
 
 import javax.servlet.http.HttpServletRequest;
 
-public class AuthenticationFailureListener implements
+public class AuthenticationFailureListener
+implements
         ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
 
     @Autowired

@@ -2,6 +2,7 @@ package com.jobs.jobsearch.service;
 
 import com.jobs.jobsearch.model.*;
 import com.jobs.jobsearch.repository.*;
+import com.jobs.jobsearch.util.EscapeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,13 +71,30 @@ public class CompanyServiceImpl implements  CompanyService{
 
     @Override
     public void deleteJobQuestions(Long jobId) {
+
         for( JobQuestion question : getJobQuestions(jobId) ){
+            List<JobAnswer> jobAnswers = jobAnswerRepository.findByJobQuestionId(question.getId());
+            for (JobAnswer jobAnswer : jobAnswers ){
+                jobAnswerRepository.deleteById(jobAnswer.getId());
+            }
             jobQuestionRepository.deleteById(question.getId());
         }
     }
 
     @Override
     public Job saveJob(Job job) {
+        String encodedStr = job.getTitle();
+        encodedStr = EscapeUtil.esacpeInput(encodedStr);
+        job.setTitle(encodedStr);
+
+        encodedStr = job.getDescription();
+        encodedStr = EscapeUtil.esacpeInput(encodedStr);
+        job.setDescription(encodedStr);
+
+        encodedStr = job.getLocation();
+        encodedStr = EscapeUtil.esacpeInput(encodedStr);
+        job.setLocation(encodedStr);
+
         return jobRepository.save(job);
     }
 
@@ -87,6 +105,13 @@ public class CompanyServiceImpl implements  CompanyService{
 
     @Override
     public void saveJobQuestions(List<JobQuestion> jobQuestions) {
+
+        for( JobQuestion jobQuestion : jobQuestions ){
+            String encodedStr = jobQuestion.getQuestionName();
+            encodedStr = EscapeUtil.esacpeInput(encodedStr);
+            jobQuestion.setQuestionName(encodedStr);
+        }
+
         jobQuestionRepository.saveAll(jobQuestions);
     }
 

@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 
 @Component
-public class AuthenticationSuccessEventListener implements
-        ApplicationListener<AuthenticationSuccessEvent> {
+public class AuthenticationSuccessEventListener implements ApplicationListener<AuthenticationSuccessEvent> {
 
     @Autowired
     private HttpServletRequest request;

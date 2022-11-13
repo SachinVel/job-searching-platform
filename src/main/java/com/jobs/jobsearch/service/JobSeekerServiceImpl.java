@@ -9,6 +9,7 @@ import com.jobs.jobsearch.repository.JobAnswerRepository;
 import com.jobs.jobsearch.repository.JobApplicationRepository;
 import com.jobs.jobsearch.repository.JobDocumentRepository;
 import com.jobs.jobsearch.repository.UserRepository;
+import com.jobs.jobsearch.util.EscapeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,9 +38,26 @@ public class JobSeekerServiceImpl implements  JobSeekerService{
     }
 
     @Override
+    public JobApplication getApplication(Long appId) {
+        return jobApplicationRepository.getReferenceById(appId);
+    }
+
+    public List<JobAnswer> getAnswersByApplicationId(Long applicationId) {
+        return jobAnswerRepository.findByJobApplicationId(applicationId);
+    }
+    @Override
+    public void deleteJobApplication(Long applicationId) {
+        for( JobAnswer jobAnswer : getAnswersByApplicationId(applicationId) ){
+            jobAnswerRepository.delete(jobAnswer);
+        }
+        jobApplicationRepository.deleteById(applicationId);
+    }
+
+    @Override
     public void saveJobAnswers(List<JobAnswer> jobAnswers) {
         for( JobAnswer jobAnswer : jobAnswers ){
             String encodedAnswer = jobAnswer.getAnswerValue();
+            encodedAnswer = EscapeUtil.esacpeInput(encodedAnswer);
             jobAnswer.setAnswerValue(encodedAnswer);
         }
         jobAnswerRepository.saveAll(jobAnswers);

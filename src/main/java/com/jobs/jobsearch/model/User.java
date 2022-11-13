@@ -14,11 +14,12 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @Entity
-@Table(name="users", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
+@Table(name="users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
+
     @NotEmpty
     public String username;
     public boolean enabled;

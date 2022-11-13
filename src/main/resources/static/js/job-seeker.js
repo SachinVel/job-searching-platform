@@ -151,6 +151,28 @@ const Seeker = new function () {
     });
   }
 
+  this.logout = function(){
+    $.ajax({
+      type: 'POST',
+      url: '/logout',
+      headers: { 'X-XSRF-TOKEN': csrfToken },
+      success: function (response) {
+        window.location.href="/login?logout";
+      }
+    });
+  }
+
+  this.withdrawApplication = function(jobId){
+    $.ajax({
+      type: 'DELETE',
+      headers : {'X-XSRF-TOKEN': csrfToken},
+      url: '/seeker/application/'+jobId,
+      success: function (response) {
+        $('#main-body').html(response);
+      }
+    });
+  }
+
 
   this.init = function () {
 
@@ -170,6 +192,10 @@ const Seeker = new function () {
 
     $('#job-application-menu').on('click', function () {
       Seeker.getJobApplications();
+    });
+
+    $('#logout-btn').on('click', function () {
+      Seeker.logout();
     });
 
     //job
@@ -227,6 +253,11 @@ const Seeker = new function () {
     $('#main-body').on('click', '.js-delete-btn', function () {
       let docId = $(this).closest('td').siblings('.js-doc-id').text();
       Seeker.deleteDocument(docId);
+    });
+
+    $('#main-body').on('click', '.js-withdraw-application-btn', function () {
+      let appId = $(this).closest('td').siblings('.js-app-id').text();
+      Seeker.withdrawApplication(appId);
     });
 
   }
