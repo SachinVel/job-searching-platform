@@ -42,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class JobSeekerController {
     private JobSeekerValidator jobSeekerValidator;
 
     @Value("${project.location}")
-    private String projectLocation;
+    private String documentLocation;
 
     @GetMapping("/index")
     public String jobseekerhome(){
@@ -370,7 +371,6 @@ public class JobSeekerController {
                 return "job-seeker-document";
             }
 
-            String documentLocation = Paths.get(projectLocation,"src/main/resources/documents").toString();
             String userLocation = documentLocation+"/"+user.getId();
             Files.createDirectories(Paths.get(userLocation));
             var fileName = file.getOriginalFilename();
@@ -414,7 +414,7 @@ public class JobSeekerController {
                 return ResponseEntity.badRequest().build();
             }
 
-            String documentLocation = Paths.get(projectLocation,"src/main/resources/documents").toString();
+
             String docLocation = documentLocation+"/"+user.getId()+"/"+curDoc.getName();
             Resource resource = new FileUrlResource(docLocation);
             if (resource == null) {
@@ -451,7 +451,6 @@ public class JobSeekerController {
 
             jobSeekerService.deleteDocument(docId);
 
-            String documentLocation = Paths.get(projectLocation,"src/main/resources/documents").toString();
             String userLocation = documentLocation+"/"+user.getId();
             Files.delete(Paths.get(userLocation +"/"+ curDoc.getName()));
 

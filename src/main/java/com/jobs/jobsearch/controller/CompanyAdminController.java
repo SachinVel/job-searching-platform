@@ -58,7 +58,7 @@ public class CompanyAdminController {
     private CompanyValidator companyValidator;
 
     @Value("${project.location}")
-    private String projectLocation;
+    private String documentLocation;
 
     @GetMapping("/index")
     public String companyAdminHome(){
@@ -230,8 +230,6 @@ public class CompanyAdminController {
         try{
 
             JobDocument curDoc = jobSeekerService.getDocument(docId);
-
-            String documentLocation = Paths.get(projectLocation,"src/main/resources/documents").toString();
 
             String docLocation = documentLocation+"/"+curDoc.getUser().getId()+"/"+curDoc.getName();
             Resource resource = new FileUrlResource(docLocation);
