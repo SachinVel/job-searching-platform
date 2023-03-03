@@ -137,7 +137,7 @@ public class AuthController {
             String token = UUID.randomUUID().toString();
             userService.createVerificationToken(curUser, token);
             String confirmationUrl
-                    = "https://localhost/register/confirm?token=" + token;
+                    = "http://ec2-44-203-18-179.compute-1.amazonaws.com:3000/register/confirm?token=" + token;
             String message = "Click this link to verify your email : "+confirmationUrl;
             EmailSender emailSender = new EmailSender();
             emailSender.sendConfirmationLink(curUser,message);
