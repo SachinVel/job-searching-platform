@@ -57,7 +57,7 @@ public class AuthController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>(authentication.getAuthorities());
         if( list.get(0).getAuthority().equals("JOB_SEEKER") ){
-            return "redirect:/seeker/index#job ";
+            return "redirect:/seeker/index#job";
         }else{
             return "redirect:/company/index#add-job";
         }
