@@ -5,6 +5,6 @@ runtime_config:
   runtime_version: "21"
 handlers:
   - url: /.*
-  script: this field is required, but ignored
+    script: this field is required, but ignored
 manual_scaling:
   instances: 1
