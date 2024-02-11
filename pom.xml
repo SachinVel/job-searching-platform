@@ -144,6 +144,11 @@
 						<skipTests>true</skipTests>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>com.google.cloud.tools</groupId>
+					<artifactId>appengine-maven-plugin</artifactId>
+					<version>1.3.2</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
