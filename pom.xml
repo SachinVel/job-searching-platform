@@ -26,6 +26,7 @@
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-maven-plugin</artifactId>
 			<version>1.9.84</version>
+
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -153,6 +154,10 @@
 					<groupId>com.google.cloud.tools</groupId>
 					<artifactId>appengine-maven-plugin</artifactId>
 					<version>2.4.4</version>
+					<configuration>
+						<deploy.projectId>ferrous-terrain-260210</deploy.projectId>
+						<deploy.version>1</deploy.version>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
