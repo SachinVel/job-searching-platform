@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import org.springframework.core.SpringVersion;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -57,7 +58,7 @@ public class AuthControllerTest {
     public void testSeekerPageAccess() {
 
         try {
-
+            System.out.println("Hello : "+SpringVersion.getVersion());
             RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/seeker/index");
 
             MvcResult result = mvc.perform(requestBuilder).andReturn();
