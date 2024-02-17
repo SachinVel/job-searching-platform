@@ -14,7 +14,7 @@
 	<name>jobsearch</name>
 	<description>A job search portal</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<packaging>war</packaging>
 	<dependencies>
